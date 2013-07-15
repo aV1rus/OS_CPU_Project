@@ -1,4 +1,4 @@
-package Main.control_unit;
+package Main.ControlUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package Main.control_unit;
  * Time: 11:59 AM
  */
 
-import Main.driver.Driver;
+import Main.Driver;
 
 public class MultiDispatch {
 

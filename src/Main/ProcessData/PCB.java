@@ -1,4 +1,4 @@
-package Main.process_control;
+package Main.ProcessData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package Main.process_control;
  * Time: 07:50 AM
  */
 import java.util.*;
-import Main.log_files.ErrorLog;
+import Main.Log.ErrorLog;
 
 //class def
 public class PCB

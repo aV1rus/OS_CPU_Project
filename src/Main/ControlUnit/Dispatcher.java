@@ -1,4 +1,4 @@
-package Main.control_unit;
+package Main.ControlUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,12 +7,13 @@ package Main.control_unit;
  * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
  */
-import Main.process_control.*;
+import Main.Driver;
+import Main.ProcessData.*;
 
 public class Dispatcher
 {
     private Dispatcher dispatch;
-    protected Main.process_control.Process currentProc;
+    protected Main.ProcessData.Process currentProc;
     private int currentInstr;
     private boolean term;
 
@@ -36,7 +37,7 @@ public class Dispatcher
 
     public int get()
     {
-        if (Main.driver.Driver.contextSwitch && (MultiDispatch.getDispatch(runCPU).currentProc.getProcState() == 4))
+        if (Driver.contextSwitch && (MultiDispatch.getDispatch(runCPU).currentProc.getProcState() == 4))
         {
             WaitQueue.addItem(MultiDispatch.getDispatch(runCPU).currentProc.getProc_id(), MultiDispatch.getDispatch(runCPU).currentProc.getWaitType());
             return -1;

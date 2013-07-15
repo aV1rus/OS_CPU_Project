@@ -1,4 +1,4 @@
-package Main.process_control;
+package Main.ProcessData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,8 +10,8 @@ package Main.process_control;
  * This object will be utilized by the PCB (Program Control Block) to hold vital information
  * that will be used to determine efficiency and other metrics for later validation.
  */
-import Main.log_files.ErrorLog;
-import Main.memory.RAM;
+import Main.Log.ErrorLog;
+import Main.Memory.RAM;
 
 
 /**

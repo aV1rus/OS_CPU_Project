@@ -1,4 +1,4 @@
-package Main.loader;
+package Main;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,8 +9,8 @@ package Main.loader;
 import java.io.*;
 
 //import HardDrive.HardDrive;
-import Main.memory.HardDrive;
-import Main.process_control.PCB;
+import Main.Memory.HardDrive;
+import Main.ProcessData.PCB;
 
 public class Loader
 {

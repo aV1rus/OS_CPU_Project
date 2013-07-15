@@ -1,4 +1,4 @@
-package Main.process_control;
+package Main.ProcessData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package Main.process_control;
  * Time: 03:45 PM
  * To change this template use File | Settings | File Templates.
  */
-import Main.log_files.ErrorLog;
+import Main.Log.ErrorLog;
 
 
 /**

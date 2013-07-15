@@ -1,4 +1,4 @@
-package Main.memory;
+package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,8 +7,8 @@ package Main.memory;
  * Time: 10:46 PM
  * To change this template use File | Settings | File Templates.
  */
-import Main.driver.Driver;
-import Main.log_files.ErrorLog;
+import Main.Driver;
+import Main.Log.ErrorLog;
 
 public class RAM
 {
@@ -35,7 +35,7 @@ public class RAM
     {
         if(loc >= 0 && loc < Driver.amtOfRAM)
         {
-            if (!Main.driver.Driver.contextSwitch)
+            if (!Driver.contextSwitch)
                 return ram[loc];
             else
             {
@@ -69,7 +69,7 @@ public class RAM
     {
         if( data != null)
         {
-            if (Main.driver.Driver.contextSwitch)
+            if (Driver.contextSwitch)
             {
                 MemManager.write(data, (loc / 4), (loc % 4));
             }

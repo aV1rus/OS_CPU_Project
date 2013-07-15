@@ -1,4 +1,4 @@
-package Main.memory;
+package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +11,8 @@ package Main.memory;
  * HardDrive Module
  */
 
-import Main.driver.Driver;
-import Main.log_files.ErrorLog;
+import Main.Driver;
+import Main.Log.ErrorLog;
 
 //class def
 public class HardDrive

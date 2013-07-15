@@ -1,4 +1,4 @@
-package Main.log_files;
+package Main.Log;
 
 /**
  * Created with IntelliJ IDEA.

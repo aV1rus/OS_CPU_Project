@@ -1,4 +1,4 @@
-package Main.process_control;
+package Main.ProcessData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,8 +8,8 @@ package Main.process_control;
  */
 import java.util.*;
 
-import Main.driver.Driver;
-import Main.log_files.ErrorLog;
+import Main.Driver;
+import Main.Log.ErrorLog;
 
 public class ReadyQueue
 {

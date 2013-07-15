@@ -1,4 +1,4 @@
-package Main.memory;
+package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,8 +9,8 @@ package Main.memory;
  *
  * Memory Management Unit
  */
-import Main.process_control.PCB;
-import Main.process_control.ReadyQueue;
+import Main.ProcessData.PCB;
+import Main.ProcessData.ReadyQueue;
 
 public class MemManager
 {

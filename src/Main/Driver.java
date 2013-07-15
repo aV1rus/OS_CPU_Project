@@ -1,14 +1,13 @@
-package Main.driver;
+package Main;
 
-import Main.control_unit.CPU;
-import Main.control_unit.MultiDispatch;
-import Main.loader.Loader;
-import Main.memory.HardDrive;
-import Main.memory.MemManager;
-import Main.process_control.PCB;
-import Main.process_control.ReadyQueue;
-import Main.process_control.Scheduler;
-import Main.process_control.WaitQueue;
+import Main.ControlUnit.CPU;
+import Main.ControlUnit.MultiDispatch;
+import Main.Memory.HardDrive;
+import Main.Memory.MemManager;
+import Main.ProcessData.PCB;
+import Main.ProcessData.ReadyQueue;
+import Main.ProcessData.Scheduler;
+import Main.ProcessData.WaitQueue;
 
 import java.util.Scanner;
 

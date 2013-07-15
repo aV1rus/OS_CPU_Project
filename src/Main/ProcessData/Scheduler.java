@@ -1,4 +1,4 @@
-package Main.process_control;
+package Main.ProcessData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -6,8 +6,8 @@ package Main.process_control;
  * Date: 7/2/13
  * Time: 05:52 PM
  */
-import Main.memory.HardDrive;
-import Main.memory.RAM;
+import Main.Memory.HardDrive;
+import Main.Memory.RAM;
 
 //class def
 public class Scheduler

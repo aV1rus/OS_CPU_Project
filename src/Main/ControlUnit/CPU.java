@@ -1,4 +1,4 @@
-package Main.control_unit;
+package Main.ControlUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,10 +7,11 @@ package Main.control_unit;
  * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
  */
-import Main.log_files.ErrorLog;
-import Main.memory.RAM;
+import Main.Driver;
+import Main.Log.ErrorLog;
+import Main.Memory.RAM;
 
-import Main.process_control.PCB;
+import Main.ProcessData.PCB;
 
 public class CPU
 {
@@ -410,7 +411,7 @@ public class CPU
     private void park(int type)
     {
         PCB.getInstance().getJob(pid).setProcState(4);
-        if (Main.driver.Driver.contextSwitch)
+        if (Driver.contextSwitch)
         {
             if (type == 0) //io interrupt
                 PCB.getInstance().getJob(pid).setNextInstruct(runInstr + 1);
