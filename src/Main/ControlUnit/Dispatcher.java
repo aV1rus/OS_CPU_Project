@@ -8,12 +8,12 @@ package Main.ControlUnit;
  * To change this template use File | Settings | File Templates.
  */
 import Main.Driver;
-import Main.ProcessData.*;
+import Main.ProcessControl.*;
 
 public class Dispatcher
 {
     private Dispatcher dispatch;
-    protected Main.ProcessData.Process currentProc;
+    protected Main.ProcessControl.Process currentProc;
     private int currentInstr;
     private boolean term;
 

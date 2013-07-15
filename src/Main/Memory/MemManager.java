@@ -9,8 +9,8 @@ package Main.Memory;
  *
  * Memory Management Unit
  */
-import Main.ProcessData.PCB;
-import Main.ProcessData.ReadyQueue;
+import Main.ProcessControl.PCB;
+import Main.ProcessControl.ReadyQueue;
 
 public class MemManager
 {

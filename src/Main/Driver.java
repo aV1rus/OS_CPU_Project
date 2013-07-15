@@ -4,10 +4,10 @@ import Main.ControlUnit.CPU;
 import Main.ControlUnit.MultiDispatch;
 import Main.Memory.HardDrive;
 import Main.Memory.MemManager;
-import Main.ProcessData.PCB;
-import Main.ProcessData.ReadyQueue;
-import Main.ProcessData.Scheduler;
-import Main.ProcessData.WaitQueue;
+import Main.ProcessControl.PCB;
+import Main.ProcessControl.ReadyQueue;
+import Main.ProcessControl.Scheduler;
+import Main.ProcessControl.WaitQueue;
 
 import java.util.Scanner;
 
@@ -29,36 +29,7 @@ public class Driver
     public static final int hardDriveSpace = 2048;
     public static final boolean contextSwitch = true;
 
-    public static Scheduler.Processors getMultiSing(){
-        Scanner input=new Scanner(System.in);
-        String val = "";
 
-        System.out.println("Would you like this to be a Single core or Multi Core demo? S == One CPU || M == 4 CPU");
-        val=input.next(); // Get what the user types.
-
-        if(val.toLowerCase().equals("s")) return  Scheduler.Processors.SINGLE;
-        if(val.toLowerCase().equals("m")) return Scheduler.Processors.MULTI;
-
-        System.out.println("Please Only use letters S or M... (Not Case Sensitive)");
-
-        return getMultiSing();
-    }
-
-    public static int getNumProcs(){
-        Scanner input=new Scanner(System.in); // Decl. & init. a Scanner.
-        String val = "";
-
-        System.out.println("How many CPU's would you like to have?");
-        val=input.next(); // Get what the user types.
-
-        try{
-            if(Integer.parseInt(val) % 1 == 0) return  Integer.parseInt(val);
-        }catch(Exception e){}
-
-        System.out.println("Please Only use whole numbers");
-
-        return getNumProcs();
-    }
     public static int getAmtRam(){
         Scanner input=new Scanner(System.in); // Decl. & init. a Scanner.
         String val = "";
@@ -83,14 +54,14 @@ public class Driver
         amtOfRAM = 2048;//getAmtRam();
         numOfProcessors = 8;//getNumProcs();
 
-        HardDrive.getInstance();
-        PCB.getInstance();
-        Loader.getInstance();
-        Scheduler.getInstance();
+        HardDrive hardDrive = HardDrive.getInstance();
+        PCB pcb = PCB.getInstance();
+        Loader loader = Loader.getInstance();
+        Scheduler scheduler = Scheduler.getInstance();
 
-        MultiDispatch bigDispatch = new MultiDispatch();
+        new MultiDispatch();
 
-        MemManager memMaster = new MemManager();
+        MemManager memMas= new MemManager();
 
         CPU[] CPUCore;
         CPUCore = new CPU[numOfProcessors];
@@ -101,43 +72,50 @@ public class Driver
         int waitQVal = 0;
 
         int notBusyCount = 0;
-        int x = 0;
 
-        while ( !PCB.getInstance().isDone() ){
-            Scheduler.getInstance().longTerm();
+        while ( !pcb.isDone() ){
+            scheduler.longTerm();
             ReadyQueue.getInstance().prioritize();
-            memMaster.makeMMU();
+            memMas.makeMMU();
             if (!PCB.getInstance().isDone() || ReadyQueue.getInstance().hasJobsInQueue() || (!WaitQueue.isEmpty())){
+
+
                 boolean firstRun = true;
                 while((firstRun) || (nextJob >= 0) || (notBusyCount < numOfProcessors) || (!WaitQueue.isEmpty())){
                     firstRun=false;
+
+
+                    // Check each Processor
+
                     for (int i = 0; i < numOfProcessors; i++){
-                        if (!CPUCore[i].isBusy()){
+
+                        if (!CPUCore[i].isBusy()){        //IF Processor CORE is not busy
                             if (contextSwitch){
                                 waitQVal = WaitQueue.getItem();
                                 if (waitQVal < 1){
-                                    nextJob = Scheduler.getInstance().shortTerm();
+                                    nextJob = scheduler.shortTerm();
                                 }else{
                                     nextJob = waitQVal;
-                                    CPUCore[i].setRegisters(PCB.getInstance().getJob(nextJob).getRegisters());
+                                    CPUCore[i].setRegisters(pcb.getJob(nextJob).getRegisters());
                                 }
                             }else
-                                        nextJob = Scheduler.getInstance().shortTerm();
+                                        nextJob = scheduler.shortTerm();
 
                             if (nextJob >= 0){
                                 MultiDispatch.getDispatch(i).give_proc(nextJob);
                                 CPUCore[i].isBusy(true);
                             }else
                                 CPUCore[i].isBusy(false);
-                        }else{
+
+                        }else{                       //IF Processor CORE IS busy
+
                             if(!MultiDispatch.getDispatch(i).getTerminate())
                             {
-
-                                x = MultiDispatch.getDispatch(i).get();
-                                if (x == -1)
+                                int procIndex = MultiDispatch.getDispatch(i).get();
+                                if (procIndex == -1)
                                     CPUCore[i].isBusy(false);
                                 else
-                                    CPUCore[i].run(x,i);
+                                    CPUCore[i].run(procIndex, i);
                             }
                             else
                                 CPUCore[i].isBusy(false);
@@ -151,12 +129,14 @@ public class Driver
 
                         WaitQueue.countDown();
 
+
+
                     }
 
                 }
 
             }
         }
-        PCB.getInstance().getJob(1).getFinalData();
+        pcb.getJob(1).getFinalData();
     }
 }

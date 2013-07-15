@@ -11,7 +11,7 @@ import Main.Driver;
 import Main.Log.ErrorLog;
 import Main.Memory.RAM;
 
-import Main.ProcessData.PCB;
+import Main.ProcessControl.PCB;
 
 public class CPU
 {

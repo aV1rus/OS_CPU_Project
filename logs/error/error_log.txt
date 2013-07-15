@@ -1,0 +1,6 @@
+RAM::write_loc || >> Invalid -- Mon Jul 15 10:58:23 EDT 2013
+null value
+ -- Mon Jul 15 10:58:23 EDT 2013
+RAM::write_loc || >> Invalid -- Mon Jul 15 10:59:28 EDT 2013
+null value
+ -- Mon Jul 15 10:59:28 EDT 2013
