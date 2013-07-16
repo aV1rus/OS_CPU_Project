@@ -11,26 +11,26 @@ import java.util.*;
 import Main.Driver;
 import Main.Log.ErrorLog;
 
-public class ReadyQueue
+public class Queue
 {
-    private static ReadyQueue readyQueue;
+    private static Queue queue;
     private static LinkedList<Integer> processIDs;
     private int iterator;
 
     private int rqCounter;
 
-    private ReadyQueue(){
+    private Queue(){
         processIDs = new LinkedList<Integer>();
         iterator = 0;
     }
 
-    public static synchronized ReadyQueue getInstance(){
-        if(readyQueue == null)
+    public static synchronized Queue getInstance(){
+        if(queue == null)
         {
-            readyQueue = new ReadyQueue();
+            queue = new Queue();
         }
 
-        return readyQueue;
+        return queue;
     }
 
     public int addProcess(int id){
@@ -123,7 +123,7 @@ public class ReadyQueue
                 //put the jobs back in the ReadyQueue in sorted order
                 for (int i = rqCounter; i < (temp.length -1); i++)
                 {
-                    ReadyQueue.getInstance().addProcess(temp[i][0]);
+                    Queue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job
@@ -164,7 +164,7 @@ public class ReadyQueue
                 //put the jobs back in the ReadyQueue in sorted order
                 for (int i = rqCounter; i < (temp.length -1); i++)
                 {
-                    ReadyQueue.getInstance().addProcess(temp[i][0]);
+                    Queue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job

@@ -11,22 +11,18 @@ import java.io.*;
 
 /**
  * ProcStat class is responsible for creating and modifying a log file called
- * process_stats.txt.  This class creates a directory under the local directory of
- * the executable called "/logs/stats/".  If this directory exists then it moves
- * to that directory to see if the file exists.  If not, it is created and any information
- * added by the writeStat() method is appended to the end of that file.  Each entry
- * is ended by a newLine() statement for easier reading.
+ * process_stats.txt.  This class creates a directory if needed to log process statistics
  */
-public class ProcStat
+public class ProcessStatus
 {
     //Private Class Variables
     private File sFile;
     private BufferedWriter bWrite;
-    private static ProcStat pStat;
+    private static ProcessStatus pStat;
     private String directory;
 
     //Private Default Constructor
-    private ProcStat()
+    private ProcessStatus()
     {
         //Creates the directory structure.
         File dir = new File("logs");
@@ -66,11 +62,11 @@ public class ProcStat
      *
      * @return synchronized pointed to the object ProcStat.
      */
-    public static synchronized ProcStat getInstance()
+    public static synchronized ProcessStatus getInstance()
     {
         if(pStat == null)
         {
-            pStat = new ProcStat();
+            pStat = new ProcessStatus();
         }
 
         return pStat;

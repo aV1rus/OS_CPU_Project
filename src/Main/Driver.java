@@ -5,7 +5,7 @@ import Main.ControlUnit.MultiDispatch;
 import Main.Memory.HardDrive;
 import Main.Memory.MemManager;
 import Main.ProcessControl.PCB;
-import Main.ProcessControl.ReadyQueue;
+import Main.ProcessControl.Queue;
 import Main.ProcessControl.Scheduler;
 import Main.ProcessControl.WaitQueue;
 
@@ -75,9 +75,9 @@ public class Driver
 
         while ( !pcb.isDone() ){
             scheduler.longTerm();
-            ReadyQueue.getInstance().prioritize();
+            Queue.getInstance().prioritize();
             memMas.makeMMU();
-            if (!PCB.getInstance().isDone() || ReadyQueue.getInstance().hasJobsInQueue() || (!WaitQueue.isEmpty())){
+            if (!PCB.getInstance().isDone() || Queue.getInstance().hasJobsInQueue() || (!WaitQueue.isEmpty())){
 
 
                 boolean firstRun = true;

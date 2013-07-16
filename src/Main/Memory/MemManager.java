@@ -7,10 +7,9 @@ package Main.Memory;
  * Time: 09:46 AM
  *
  *
- * Memory Management Unit
  */
 import Main.ProcessControl.PCB;
-import Main.ProcessControl.ReadyQueue;
+import Main.ProcessControl.Queue;
 
 public class MemManager
 {
@@ -40,7 +39,7 @@ public class MemManager
         currBuff = -1;
         startProcess = processesServed;
 
-        for (int i = startProcess; i < (ReadyQueue.getInstance().getSize() + 1); i++)
+        for (int i = startProcess; i < (Queue.getInstance().getSize() + 1); i++)
         {
             processesServed++;
             frameTable[i].owner = PCB.getInstance().getJob(i).getProc_id();

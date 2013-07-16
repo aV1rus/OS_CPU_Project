@@ -83,12 +83,12 @@ public class Scheduler
                     Process temp = PCB.getInstance().getJob(currentJob);
 
                     //while there are still processes, keep moving to RAM
-                    boolean keepGoing = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
+                    boolean doWork = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
 
-                    while (keepGoing)
+                    while (doWork)
                     {
                         //get the next job
-                        ReadyQueue.getInstance().addProcess(currentJob);
+                        Queue.getInstance().addProcess(currentJob);
                         //set the status of this job to ready for dispatch
                         PCB.getInstance().getJob(currentJob).setProcState(1);
                         //read job info (if we use direct calls this will slow the loop)
@@ -151,14 +151,13 @@ public class Scheduler
                             RAM.getInstance().write_next("00000000");
                             tempBuffCount--;
                         }
-
                         //if we are done, stop; else get next information
 
                         theJob = PCB.getInstance().nextProcess();
                         if(!(theJob == null) && !(PCB.getInstance().isDone())){
                             currentJob = theJob.getProc_id();
                             num = RAM.getInstance().get_next_loc();
-                            keepGoing = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
+                            doWork = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
 //
                         }else
                             break;
@@ -172,6 +171,9 @@ public class Scheduler
             }
             case SJF:
             {
+                  //Shortest Job First
+
+
                 break;
             }
             case PRIORITY:
@@ -186,8 +188,8 @@ public class Scheduler
 
     public int shortTerm()
     {
-        //read the id from the ReadyQueue and output
-        int id = ReadyQueue.getInstance().getProcesses();
+        //read the id from the Queue and output
+        int id = Queue.getInstance().getProcesses();
         //System.out.println(id + " ID gotten ****** ");
 
 

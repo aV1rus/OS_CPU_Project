@@ -11,11 +11,7 @@ import java.util.Calendar;
 
 /**
  * ErrorLog class is responsible for creating and modifying a log file called
- * error_log.txt.  This class creates a directory under the local directory of
- * the executable called "/logs/error/".  If this directory exists then it moves
- * to that directory to see if the file exists.  If not, it is created and any information
- * added by the writeStat() method is appended to the end of that file.  Each entry
- * is ended by a time stamp and newLine() statement for easier reading.
+ * error_log.txt.  This class will create a directory for errors to be logged.
  */
 public class ErrorLog
 {
