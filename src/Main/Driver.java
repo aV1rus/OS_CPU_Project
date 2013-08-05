@@ -5,7 +5,7 @@ import Main.ControlUnit.MultiDispatch;
 import Main.Memory.HardDrive;
 import Main.Memory.MemManager;
 import Main.ProcessControl.PCB;
-import Main.ProcessControl.Queue;
+import Main.ProcessControl.ReadyQueue;
 import Main.ProcessControl.Scheduler;
 import Main.ProcessControl.WaitQueue;
 
@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 6/28/13
  * Time: 11:49 AM
  */
@@ -75,9 +75,9 @@ public class Driver
 
         while ( !pcb.isDone() ){
             scheduler.longTerm();
-            Queue.getInstance().prioritize();
+            ReadyQueue.getInstance().prioritize();
             memMas.makeMMU();
-            if (!PCB.getInstance().isDone() || Queue.getInstance().hasJobsInQueue() || (!WaitQueue.isEmpty())){
+            if (!PCB.getInstance().isDone() || ReadyQueue.getInstance().hasJobsInQueue() || (!WaitQueue.isEmpty())){
 
 
                 boolean firstRun = true;

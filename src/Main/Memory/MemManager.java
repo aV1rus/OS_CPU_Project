@@ -2,14 +2,14 @@ package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
- * User: nick
+ * User: aV1rus
  * Date: 7/2/13
  * Time: 09:46 AM
  *
  *
  */
 import Main.ProcessControl.PCB;
-import Main.ProcessControl.Queue;
+import Main.ProcessControl.ReadyQueue;
 
 public class MemManager
 {
@@ -39,7 +39,7 @@ public class MemManager
         currBuff = -1;
         startProcess = processesServed;
 
-        for (int i = startProcess; i < (Queue.getInstance().getSize() + 1); i++)
+        for (int i = startProcess; i < (ReadyQueue.getInstance().getSize() + 1); i++)
         {
             processesServed++;
             frameTable[i].owner = PCB.getInstance().getJob(i).getProc_id();

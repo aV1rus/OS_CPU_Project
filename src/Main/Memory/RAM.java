@@ -2,7 +2,7 @@ package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/2/13
  * Time: 10:46 PM
  * To change this template use File | Settings | File Templates.
@@ -141,17 +141,17 @@ public class RAM
         next_loc=0;
     }
 
-    public String[] getMemDump()
-    {
-        String[] temp = new String[Driver.amtOfRAM];
-
-        for(int i = 0; i < ram.length; i++)
-        {
-            temp[i] = ram[i];
-        }
-
-        return temp;
-    }
+//    public String[] getMemDump()
+//    {
+//        String[] temp = new String[Driver.amtOfRAM];
+//
+//        for(int i = 0; i < ram.length; i++)
+//        {
+//            temp[i] = ram[i];
+//        }
+//
+//        return temp;
+//    }
 
     public int get_next_loc()
     {

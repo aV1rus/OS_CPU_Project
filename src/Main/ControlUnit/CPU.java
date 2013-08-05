@@ -2,7 +2,7 @@ package Main.ControlUnit;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/1/13
  * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
@@ -257,30 +257,29 @@ public class CPU
             if(reg[bReg] == reg[dReg])
                 MultiDispatch.getDispatch(runCPU).set(address);
 
-            else if(op.equals("00010110")) // BEQ
-                if(reg[bReg] != reg[dReg])
-                    MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals("00010110")) // BEQ
+            if(reg[bReg] != reg[dReg])
+                MultiDispatch.getDispatch(runCPU).set(address);
 
-                else if(op.equals("00010111")) // BEZ
-                    if(reg[bReg] == 0)
-                        MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals("00010111")) // BEZ
+            if(reg[bReg] == 0)
+                MultiDispatch.getDispatch(runCPU).set(address);
 
-                    else if(op.equals("00011000")) // BNZ
-                        if(reg[bReg] != 0)
-                            MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals("00011000")) // BNZ
+            if(reg[bReg] != 0)
+                MultiDispatch.getDispatch(runCPU).set(address);
 
-                        else if(op.equals("00011001")) // BGZ
-                            if(reg[bReg] > 0)
-                                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals("00011001")) // BGZ
+            if(reg[bReg] > 0)
+                MultiDispatch.getDispatch(runCPU).set(address);
 
-                            else if(op.equals("00011010")) // BLZ
-                                if(reg[bReg] < 0)
-                                    MultiDispatch.getDispatch(runCPU).set(address);
-                                else
-                                {
-                                    ErrorLog.getInstance().writeError("CPU::condImm() || >> Invalid instruction");
-                                    throw new IllegalArgumentException();
-                                }
+        else if(op.equals("00011010")) // BLZ
+            if(reg[bReg] < 0)
+                MultiDispatch.getDispatch(runCPU).set(address);
+            else{
+                ErrorLog.getInstance().writeError("CPU::condImm() || >> Invalid instruction");
+                throw new IllegalArgumentException();
+            }
 
         //System.out.println("dReg Final: " + dReg + " :: " + reg[dReg]);
     }
@@ -425,12 +424,6 @@ public class CPU
     {
         String format, opcode, params;
 
-        private Instruction()
-        {
-            format = null;
-            opcode = null;
-            params = null;
-        }
 
         private Instruction(String instr)
         {

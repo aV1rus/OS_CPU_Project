@@ -2,7 +2,7 @@ package Main.ProcessControl;
 
 /**
  * Created with IntelliJ IDEA.
- * User: nick
+ * User: Nick Maiello (aV1rus)
  * Date: 7/2/13
  * Time: 05:52 PM
  */
@@ -88,7 +88,7 @@ public class Scheduler
                     while (doWork)
                     {
                         //get the next job
-                        Queue.getInstance().addProcess(currentJob);
+                        ReadyQueue.getInstance().addProcess(currentJob);
                         //set the status of this job to ready for dispatch
                         PCB.getInstance().getJob(currentJob).setProcState(1);
                         //read job info (if we use direct calls this will slow the loop)
@@ -189,7 +189,7 @@ public class Scheduler
     public int shortTerm()
     {
         //read the id from the Queue and output
-        int id = Queue.getInstance().getProcesses();
+        int id = ReadyQueue.getInstance().getProcesses();
         //System.out.println(id + " ID gotten ****** ");
 
 

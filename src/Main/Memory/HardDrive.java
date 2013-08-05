@@ -2,7 +2,7 @@ package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/3/13
  * Time: 12:45 AM
  * To change this template use File | Settings | File Templates.
@@ -89,24 +89,24 @@ public class HardDrive
     }
 
     //write data to a specific location on the drive
-    public void writeLoc(String hex, int loc)
-    {
-        if(hex != null && loc < h_drive.length)
-        {
-            h_drive[loc] = hex;
-        }
-        else
-        {
-            ErrorLog.getInstance().writeError("HardDrive::writeLoc || >> Invalid inputs.");
-            throw new IllegalArgumentException();
-        }
-    }
+//    public void writeLoc(String hex, int loc)
+//    {
+//        if(hex != null && loc < h_drive.length)
+//        {
+//            h_drive[loc] = hex;
+//        }
+//        else
+//        {
+//            ErrorLog.getInstance().writeError("HardDrive::writeLoc || >> Invalid inputs.");
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
     //get the last disk location for comparisons
-    public int maxDiskLoc()
-    {
-        return lastLoc;
-    }
+//    public int maxDiskLoc()
+//    {
+//        return lastLoc;
+//    }
 
     //print contents of disk
     public String toString()

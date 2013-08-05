@@ -2,7 +2,7 @@ package Main.Log;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/1/13
  * Time: 11:53 AM
  */

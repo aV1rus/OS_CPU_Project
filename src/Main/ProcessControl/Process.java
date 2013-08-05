@@ -14,9 +14,6 @@ import Main.Log.ErrorLog;
 import Main.Memory.RAM;
 
 
-/**
- *
- */
 public class Process
 {
     /*
@@ -80,16 +77,16 @@ public class Process
     private int tempBuffer;
 
     //Program Status
-    private enum Status{ ready, waiting, running, terminated, created };
+//    private enum Status{ ready, waiting, running, terminated, created };
     private int procState;
+//
+//    private State state;
 
-    private State state;
-
-    public final static int PROCESS_READY = 0;
-    public final static int PROCESS_WAIT = 1;
-    public final static int PROCESS_RUN = 2;
-    public final static int PROCESS_TERMINATE = 3;
-    public final static int PROCESS_HOLD = 4;
+//    public final static int PROCESS_READY = 0;
+//    public final static int PROCESS_WAIT = 1;
+//    public final static int PROCESS_RUN = 2;
+//    public final static int PROCESS_TERMINATE = 3;
+//    public final static int PROCESS_HOLD = 4;
     public final static int PROCESS_DEFAULT = 0;
 
     private int next_instruct;
@@ -126,7 +123,7 @@ public class Process
         inputBuffer = -1;
         outputBuffer = -1;
         tempBuffer = -1;
-        state = new State();
+//        state = new State();
         procState = Process.PROCESS_DEFAULT;
         ioInstructCount = 0;
         executionTime = 0;
@@ -163,10 +160,10 @@ public class Process
         return proc_iCount;
     }
 
-    public int getProc_baseReg()
-    {
-        return proc_baseReg;
-    }
+//    public int getProc_baseReg()
+//    {
+//        return proc_baseReg;
+//    }
 
     public int getData_diskStart()
     {
@@ -193,36 +190,36 @@ public class Process
         return inputBuffer;
     }
 
-    public void getInBuff()
-    {
-        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
-        {
-            RAM.getInstance().write_loc(inBuff[i],(getData_memStart() + getData_count() + i));
-        }
-    }
+//    public void getInBuff()
+//    {
+//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
+//        {
+//            RAM.getInstance().write_loc(inBuff[i],(getData_memStart() + getData_count() + i));
+//        }
+//    }
 
     public int getOutputBuffer()
     {
         return outputBuffer;
     }
 
-    public void getOutBuff()
-    {
-        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
-        {
-            RAM.getInstance().write_loc(outBuff[i],(getData_memStart() + getData_count() + getData_count() + i));
-        }
-    }
+//    public void getOutBuff()
+//    {
+//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
+//        {
+//            RAM.getInstance().write_loc(outBuff[i],(getData_memStart() + getData_count() + getData_count() + i));
+//        }
+//    }
 
     public int getTempBuffer()
     {
         return tempBuffer;
     }
 
-    public String [] getTempBuff()
-    {
-        return tempBuff;
-    }
+//    public String [] getTempBuff()
+//    {
+//        return tempBuff;
+//    }
 
     public int [] getRegisters()
     {
@@ -320,12 +317,9 @@ public class Process
 
     public void setProc_id(int id)
     {
-        if(id > 0)
-        {
+        if(id > 0) {
             proc_id = id;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setProc_id(int) || >> ID # < 1");
             throw new IllegalArgumentException();
         }
@@ -333,12 +327,9 @@ public class Process
 
     public void setProc_diskStart(int location)
     {
-        if (location >= 0)
-        {
+        if (location >= 0){
             proc_diskStart = location;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setProc_diskStart(int) >> Disk location invalid");
             throw new IllegalArgumentException();
         }
@@ -346,12 +337,9 @@ public class Process
 
     public void setProc_memStart(int location)
     {
-        if( location >= 0)
-        {
+        if( location >= 0){
             proc_memStart = location;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setProc_memStart(int) >> Memory location invalid");
             throw new IllegalArgumentException();
         }
@@ -359,38 +347,29 @@ public class Process
 
     public void setProc_iCount(int count)
     {
-        if( count > 0)
-        {
+        if( count > 0){
             proc_iCount = count;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setProc_iCount(int) >> Instruction count input < 1");
             throw new IllegalArgumentException();
         }
     }
 
-    public void setProc_baseReg(int reg)
-    {
-        if(reg >= 0)
-        {
-            proc_baseReg = reg;
-        }
-        else
-        {
-            ErrorLog.getInstance().writeError("Process.setProc_baseReg(int) >> Base Register number invalid.  reg < 0" );
-            throw new IllegalArgumentException();
-        }
-    }
+//    public void setProc_baseReg(int reg)
+//    {
+//        if(reg >= 0){
+//            proc_baseReg = reg;
+//        }else{
+//            ErrorLog.getInstance().writeError("Process.setProc_baseReg(int) >> Base Register number invalid.  reg < 0" );
+//            throw new IllegalArgumentException();
+//        }
+//    }
 
     public void setData_diskStart(int diskStart)
     {
-        if (diskStart >= 0)
-        {
+        if (diskStart >= 0){
             data_diskStart = diskStart;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setData_diskStart(int) >> Disk Start invalid.  diskStart < 0");
             throw new IllegalArgumentException();
         }
@@ -398,12 +377,9 @@ public class Process
 
     public void setData_memStart(int memStart)
     {
-        if(memStart >= 0)
-        {
+        if(memStart >= 0) {
             data_memStart = memStart;
-        }
-        else
-        {
+        }else {
             ErrorLog.getInstance().writeError("Process.setData_memStart(int) >> Invalid.  memStart < 0" );
             throw new IllegalArgumentException();
         }
@@ -411,12 +387,9 @@ public class Process
 
     public void setData_size(int size)
     {
-        if(size > 0)
-        {
+        if(size > 0){
             data_size = size;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setData_size >> Size input parameter is invalid");
             throw new IllegalArgumentException();
         }
@@ -424,12 +397,9 @@ public class Process
 
     public void setJobPriority(int priority)
     {
-        if(priority > 0)
-        {
+        if(priority > 0){
             jobPriority = priority;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setJobPriority(int) >> priority < 1");
             throw new IllegalArgumentException();
         }
@@ -437,12 +407,9 @@ public class Process
 
     public void setInputBuffer(int buff)
     {
-        if(buff >= 0)
-        {
+        if(buff >= 0){
             inputBuffer = buff;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setInputbuffer(int) >> buff < 0");
             throw new IllegalArgumentException();
         }
@@ -462,42 +429,35 @@ public class Process
 
     public void setOutputBuffer(int outBuff)
     {
-        if(outBuff >= 0)
-        {
+        if(outBuff >= 0){
             outputBuffer = outBuff;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setOutputBuffer(int) >> outBuff < 0");
             throw new IllegalArgumentException();
         }
     }
 
-    public void setOutBuff()
-    {
-        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
-        {
-            outBuff[i] = RAM.getInstance().read(getData_memStart() + getData_count() + getData_count() + i);
-        }
-    }
+//    public void setOutBuff()
+//    {
+//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++){
+//            outBuff[i] = RAM.getInstance().read(getData_memStart() + getData_count() + getData_count() + i);
+//        }
+//    }
 
     public void setTempBuffer(int tempBuff)
     {
-        if(tempBuff >= 0)
-        {
+        if(tempBuff >= 0) {
             tempBuffer = tempBuff;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("Process.setOutputBuffer(int) || >> tempBuff < 0");
             throw new IllegalArgumentException();
         }
     }
 
-    public void setTempBuff(String[] temp)
-    {
-        tempBuff = temp;
-    }
+//    public void setTempBuff(String[] temp)
+//    {
+//        tempBuff = temp;
+//    }
 
     public void setRegisters(int [] temp)
     {
@@ -506,60 +466,54 @@ public class Process
 
     public void setProcState(int state)
     {
-        if(0 <= state && state <= 5)
-        {
+        if(0 <= state && state <= 5){
             //System.out.println("Proc State change: " + state);
             procState = state;
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("ProcessData.setProcState(int) >> Invalid. 0 <= X <= 4");
             throw new IllegalArgumentException();
         }
     }
 
-    public int setProgInstructCount(int i)
-    {
-        if(i > 0)
-        {
-            prog_instruct_count = i;
-            return prog_instruct_count;
-        }
-        else
-        {
-            ErrorLog.getInstance().writeError("Process.setProgInstructCount >> Invalid");
-            throw new IllegalArgumentException();
-        }
-    }
+//    public int setProgInstructCount(int i)
+//    {
+//        if(i > 0){
+//            prog_instruct_count = i;
+//            return prog_instruct_count;
+//        }else{
+//            ErrorLog.getInstance().writeError("Process.setProgInstructCount >> Invalid");
+//            throw new IllegalArgumentException();
+//        }
+//    }
+//
+//    public State getState()
+//    {
+//        return state;
+//    }
 
-    public State getState()
-    {
-        return state;
-    }
+//    public String getProcessState()
+//    {
+//        switch(procState)
+//        {
+//            case(0):
+//                return "Ready";
+//            case(1):
+//                return "Waiting";
+//            case(2):
+//                return "Running";
+//            case(3):
+//                return "Terminated";
+//            case(4):
+//                return "Undefined Process";
+//            default:
+//                return null;
+//        }
+//    }
 
-    public String getProcessState()
-    {
-        switch(procState)
-        {
-            case(0):
-                return "Ready";
-            case(1):
-                return "Waiting";
-            case(2):
-                return "Running";
-            case(3):
-                return "Terminated";
-            case(4):
-                return "Undefined Process";
-            default:
-                return null;
-        }
-    }
-
-    public void setWaitType(int wait)
-    {
-        waitType = wait;
-    }
+//    public void setWaitType(int wait)
+//    {
+//        waitType = wait;
+//    }
 
     public void setExecTime(int cost)
     {

@@ -2,7 +2,7 @@ package Main.ProcessControl;
 
 /**
  * Created with IntelliJ IDEA.
- * User: nick
+ * User: Nick Maiello (aV1rus)
  * Date: 7/2/13
  * Time: 11:53 PM
  * To change this template use File | Settings | File Templates.
@@ -25,14 +25,12 @@ public class WaitQueue {
     public static void addItem(int addPID, int io){
         waitJob temp = new waitJob();
         Iterator<waitJob> index = waitQ.iterator();
-        //int eltCount = 0;
         boolean added = false;
 
         temp.jobID = addPID;
         if (io == 1)
         {
             temp.waitTime = 5;
-            //temp.isIO = true;
         }
         else if (io == 2)
             temp.waitTime = 1;
@@ -83,10 +81,6 @@ public class WaitQueue {
         return temp;
     }
 
-    public void saveRegisters(int jobNum, int[] temp)
-    {
-
-    }
 
     public static void countDown()
     {
@@ -108,10 +102,6 @@ public class WaitQueue {
     }
 
 
-
-
-
-
     private static class waitJob
     {
         private int jobID;
@@ -122,7 +112,6 @@ public class WaitQueue {
         {
             jobID = -1;
             waitTime = 0;
-            //isIO = false;
         }
 
         public String toString()

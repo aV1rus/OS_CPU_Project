@@ -2,7 +2,7 @@ package Main.ProcessControl;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/2/13
  * Time: 11:51 AM
  */
@@ -11,26 +11,26 @@ import java.util.*;
 import Main.Driver;
 import Main.Log.ErrorLog;
 
-public class Queue
+public class ReadyQueue
 {
-    private static Queue queue;
+    private static ReadyQueue readyQueue;
     private static LinkedList<Integer> processIDs;
     private int iterator;
 
     private int rqCounter;
 
-    private Queue(){
+    private ReadyQueue(){
         processIDs = new LinkedList<Integer>();
         iterator = 0;
     }
 
-    public static synchronized Queue getInstance(){
-        if(queue == null)
+    public static synchronized ReadyQueue getInstance(){
+        if(readyQueue == null)
         {
-            queue = new Queue();
+            readyQueue = new ReadyQueue();
         }
 
-        return queue;
+        return readyQueue;
     }
 
     public int addProcess(int id){
@@ -76,10 +76,10 @@ public class Queue
         return processIDs.size();
     }
 
-    public void resetReadyQueue(){
-        processIDs = new LinkedList<Integer>();
-        iterator = 0;
-    }
+//    public void resetReadyQueue(){
+//        processIDs = new LinkedList<Integer>();
+//        iterator = 0;
+//    }
 
 
     public void prioritize(){
@@ -123,7 +123,7 @@ public class Queue
                 //put the jobs back in the ReadyQueue in sorted order
                 for (int i = rqCounter; i < (temp.length -1); i++)
                 {
-                    Queue.getInstance().addProcess(temp[i][0]);
+                    ReadyQueue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job
@@ -164,7 +164,7 @@ public class Queue
                 //put the jobs back in the ReadyQueue in sorted order
                 for (int i = rqCounter; i < (temp.length -1); i++)
                 {
-                    Queue.getInstance().addProcess(temp[i][0]);
+                    ReadyQueue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job

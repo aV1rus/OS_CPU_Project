@@ -2,7 +2,7 @@ package Main.ControlUnit;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 7/4/13
  * Time: 11:59 AM
  */

@@ -31,9 +31,7 @@ public class PCB
 
     public static synchronized PCB getInstance()
     {
-        if(pcb == null)
-            pcb = new PCB();
-
+        if(pcb == null) pcb = new PCB();
         return pcb;
     }
 

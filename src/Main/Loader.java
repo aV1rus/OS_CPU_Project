@@ -2,7 +2,7 @@ package Main;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
+ * User: Nick Maiello (aV1rus)
  * Date: 6/27/13
  * Time: 09:49 AM
  */
@@ -14,11 +14,16 @@ import Main.ProcessControl.PCB;
 
 public class Loader
 {
-    private static Loader diskLoader;
+    private static Loader loader;
     private int jobNum;
     private int job_loc;
     private int currentType;
     private int count;
+
+    public static synchronized Loader getInstance(){
+        if(loader == null) loader = new Loader();
+        return loader;
+    }
 
     private Loader()
     {
@@ -67,6 +72,8 @@ public class Loader
             br.close();
             fr.close();
 
+
+            System.out.println("");
             System.out.println("LOADER :: > Finished Loading successfully");
         }catch(IOException io){
             io.printStackTrace();
@@ -74,9 +81,6 @@ public class Loader
 
     }
 
-    public static synchronized Loader getInstance(){
-        if(diskLoader == null) diskLoader = new Loader();
-        return diskLoader;
-    }
+
 }
 
