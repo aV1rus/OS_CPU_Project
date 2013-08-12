@@ -12,27 +12,27 @@ import Main.Log.ErrorLog;
 //class def
 public class PCB
 {
-    private List<Process> procs;
+    private List<Process> mProcesses;
 
-    private static PCB pcb;
-    private int iterator;
-    private int lastJob;
-    public static boolean loop, loop2;
-    public boolean done = false;
+    private static PCB mPCB;
+    private int mIterator;
+    private int mLastJob;
+    public static boolean mFirstLoop, mSecondLoop;
+    public boolean mDone = false;
 
     private PCB()
     {
-        procs = new ArrayList<Process>();
-        iterator = -1;
-        loop = true;
-        loop2 = true;
-        lastJob = 0;
+        mProcesses = new ArrayList<Process>();
+        mIterator = -1;
+        mFirstLoop = true;
+        mSecondLoop = true;
+        mLastJob = 0;
     }
 
     public static synchronized PCB getInstance()
     {
-        if(pcb == null) pcb = new PCB();
-        return pcb;
+        if(mPCB == null) mPCB = new PCB();
+        return mPCB;
     }
 
 
@@ -43,8 +43,8 @@ public class PCB
      */
     public Process getJob(int jobNum)
     {
-        if((jobNum-1) < lastJob && (jobNum-1) >= 0){
-            return procs.get(jobNum - 1);
+        if((jobNum-1) < mLastJob && (jobNum-1) >= 0){
+            return mProcesses.get(jobNum - 1);
         }else{
             ErrorLog.getInstance().writeError("PCB :: getJob >> No job for index");
             throw new IllegalArgumentException();
@@ -57,42 +57,42 @@ public class PCB
      */
     public Process nextProcess()
     {
-        if((iterator+1) >= lastJob){
-            done = true;
-            return procs.get(iterator);
+        if((mIterator+1) >= mLastJob){
+            mDone = true;
+            return mProcesses.get(mIterator);
         }else{
-            iterator++;
-            return procs.get(iterator);
+            mIterator++;
+            return mProcesses.get(mIterator);
         }
     }
     public void reduceIter()
     {
-        iterator--;
+        mIterator--;
     }
 
 
     public boolean isDone()
     {
-        return done;
+        return mDone;
     }
 
     public int lastJob()
     {
-        return procs.size();
+        return mProcesses.size();
     }
 
     public String toString()
     {
         String temp_str = "PCB Values:";
-        for(int i = 0; i < procs.size(); i++){
-            temp_str += "\n\n\n\n\n" + procs.get(i);
+        for(int i = 0; i < mProcesses.size(); i++){
+            temp_str += "\n\n\n\n\n" + mProcesses.get(i);
         }
 
         return temp_str;
     }
 
     public List<Process> getPCBArray(){
-        return procs;
+        return mProcesses;
     }
 
 
@@ -111,8 +111,8 @@ public class PCB
         if(job != null)
         {
             temp = PCB.parse(job);
-            procs.add(temp);
-            lastJob++;
+            mProcesses.add(temp);
+            mLastJob++;
             return temp.getProc_id();
         }
         else
@@ -135,8 +135,8 @@ public class PCB
 
         if(data != null){
             temp = PCB.parse(data);
-            if( 0 < jobNum && (jobNum-1) < procs.size()){
-                job = procs.get((jobNum-1));
+            if( 0 < jobNum && (jobNum-1) < mProcesses.size()){
+                job = mProcesses.get((jobNum-1));
                 if(job.getProc_id() == jobNum){
                     job.setInputBuffer(temp.getInputBuffer());
                     job.setOutputBuffer(temp.getOutputBuffer());

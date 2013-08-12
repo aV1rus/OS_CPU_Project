@@ -18,17 +18,17 @@ import Main.Log.ErrorLog;
 public class HardDrive
 {
     //method variables
-    private String [] h_drive;
-    private int next_loc;
-    private int lastLoc;
+    private String [] mHardDrive;
+    private int mNextLocation;
+    private int mLastLocation;
 
     private static HardDrive disk;
 
     //constructor
     private HardDrive()
     {
-        h_drive = new String[Driver.hardDriveSpace];
-        next_loc = 0;
+        mHardDrive = new String[Driver.hardDriveSpace];
+        mNextLocation = 0;
     }
 
     //synchronized object for instance
@@ -46,23 +46,23 @@ public class HardDrive
     public int add(String word)
     {
         //valid address and information?
-        if(next_loc >= 0 && word != null)
+        if(mNextLocation >= 0 && word != null)
         {
             //write to next location and increment
-            h_drive[next_loc] = word;
-            int temp = next_loc;
-            lastLoc = next_loc;
-            next_loc++;
+            mHardDrive[mNextLocation] = word;
+            int temp = mNextLocation;
+            mLastLocation = mNextLocation;
+            mNextLocation++;
 
             //end of drive space? Set flag
-            if(next_loc == Driver.hardDriveSpace)
+            if(mNextLocation == Driver.hardDriveSpace)
             {
-                next_loc = -1;
+                mNextLocation = -1;
             }
 
             return temp;
         }
-        else if(next_loc == -1)
+        else if(mNextLocation == -1)
         {
             ErrorLog.getInstance().writeError("HardDisk::add || >> Disk is full.");
             throw new IllegalArgumentException();
@@ -77,9 +77,9 @@ public class HardDrive
     //get data from a specific point on the drive
     public String getLoc(int loc)
     {
-        if(loc < h_drive.length && loc >= 0)
+        if(loc < mHardDrive.length && loc >= 0)
         {
-            return h_drive[loc];
+            return mHardDrive[loc];
         }
         else
         {
@@ -112,9 +112,9 @@ public class HardDrive
     public String toString()
     {
         String str = "Memory Dump";
-        for(int i = 0; i < h_drive.length; i++)
+        for(int i = 0; i < mHardDrive.length; i++)
         {
-            str +="\nmem_loc " + i + " :: " + h_drive[i];
+            str +="\nmem_loc " + i + " :: " + mHardDrive[i];
         }
 
         return str;

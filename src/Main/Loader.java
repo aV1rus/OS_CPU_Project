@@ -9,6 +9,7 @@ package Main;
 import java.io.*;
 
 //import HardDrive.HardDrive;
+import Main.Constants.Constants;
 import Main.Memory.HardDrive;
 import Main.ProcessControl.PCB;
 
@@ -38,17 +39,17 @@ public class Loader
 
             while(in != null)
             {
-                if(in.contains("JOB")){
+                if(in.contains(Constants.LOADER_JOB)){
                     jobNum = PCB.getInstance().addJob(in);
                     currentType = 0;
                     //System.out.println("LOADER :: JOB > "+in);
-                }else if(in.contains("Data")){
+                }else if(in.contains(Constants.LOADER_DATA)){
                     PCB.getInstance().addData(in, jobNum);
                     //System.out.println("LOADER :: DATA > "+in);
                     currentType = 1;
                     count = 0;
 
-                }else if(in.contains("END")){
+                }else if(in.contains(Constants.LOADER_END)){
                     PCB.getInstance().getJob(jobNum).setData_size(count);
                     //System.out.println("LOADER :: END > "+in);
                     jobNum = -1;

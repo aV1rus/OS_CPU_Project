@@ -9,23 +9,23 @@ package Main.ControlUnit;
 
 import Main.Driver;
 
-public class MultiDispatch {
+public class Dispatch {
 
-    private static Dispatcher [] multiDisp;
+    private static Dispatcher [] mDispatch;
 
 
-    public MultiDispatch()
+    public Dispatch()
     {
-        multiDisp = new Dispatcher[Driver.numOfProcessors];
+        mDispatch = new Dispatcher[Driver.numOfProcessors];
         for (int i = 0; i < Driver.numOfProcessors; i++)
         {
-            multiDisp[i] = new Dispatcher(i);
+            mDispatch[i] = new Dispatcher(i);
         }
     }
 
     public static Dispatcher getDispatch(int i)
     {
-        return multiDisp[i];
+        return mDispatch[i];
     }
 }
 

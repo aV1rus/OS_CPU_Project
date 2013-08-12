@@ -1,15 +1,13 @@
 package Main;
 
 import Main.ControlUnit.CPU;
-import Main.ControlUnit.MultiDispatch;
+import Main.ControlUnit.Dispatch;
 import Main.Memory.HardDrive;
 import Main.Memory.MemManager;
 import Main.ProcessControl.PCB;
 import Main.ProcessControl.ReadyQueue;
 import Main.ProcessControl.Scheduler;
 import Main.ProcessControl.WaitQueue;
-
-import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,36 +28,17 @@ public class Driver
     public static final boolean contextSwitch = true;
 
 
-    public static int getAmtRam(){
-        Scanner input=new Scanner(System.in); // Decl. & init. a Scanner.
-        String val = "";
-
-        System.out.println("How much ram would you like to have? Only use multiple's of 1024... (or number to multiply by 1024)");
-        val=input.next(); // Get what the user types.
-        try{
-            if(Integer.parseInt(val) % 1024 == 0) return  Integer.parseInt(val);
-            if(Integer.parseInt(val) < 15){
-                System.out.println("Received multiply by "+val + " = "+Integer.parseInt(val)*1024);
-                return  Integer.parseInt(val)*1024;    }
-        }catch(Exception e){
-        }
-
-        System.out.println("Please Only use multiples of 1024...");
-
-        return getAmtRam();
-    }
-
     public static void main(String [] args)
     {
-        amtOfRAM = 2048;//getAmtRam();
-        numOfProcessors = 8;//getNumProcs();
+        amtOfRAM = 2048;
+        numOfProcessors = 8;
 
         HardDrive hardDrive = HardDrive.getInstance();
         PCB pcb = PCB.getInstance();
         Loader loader = Loader.getInstance();
         Scheduler scheduler = Scheduler.getInstance();
 
-        new MultiDispatch();
+        new Dispatch();
 
         MemManager memMas= new MemManager();
 
@@ -89,7 +68,7 @@ public class Driver
 
                     for (int i = 0; i < numOfProcessors; i++){
 
-                        if (!CPUCore[i].isBusy()){        //IF Processor CORE is not busy
+                        if (!CPUCore[i].getIsBusy()){        //IF Processor CORE is not busy
                             if (contextSwitch){
                                 waitQVal = WaitQueue.getItem();
                                 if (waitQVal < 1){
@@ -102,28 +81,28 @@ public class Driver
                                         nextJob = scheduler.shortTerm();
 
                             if (nextJob >= 0){
-                                MultiDispatch.getDispatch(i).give_proc(nextJob);
-                                CPUCore[i].isBusy(true);
+                                Dispatch.getDispatch(i).give_proc(nextJob);
+                                CPUCore[i].setIsBusy(true);
                             }else
-                                CPUCore[i].isBusy(false);
+                                CPUCore[i].setIsBusy(false);
 
                         }else{                       //IF Processor CORE IS busy
 
-                            if(!MultiDispatch.getDispatch(i).getTerminate())
+                            if(!Dispatch.getDispatch(i).getTerminate())
                             {
-                                int procIndex = MultiDispatch.getDispatch(i).get();
+                                int procIndex = Dispatch.getDispatch(i).get();
                                 if (procIndex == -1)
-                                    CPUCore[i].isBusy(false);
+                                    CPUCore[i].setIsBusy(false);
                                 else
                                     CPUCore[i].run(procIndex, i);
                             }
                             else
-                                CPUCore[i].isBusy(false);
+                                CPUCore[i].setIsBusy(false);
                         }
                         notBusyCount = 0;
                         for (int j = 0; j < numOfProcessors; j++)
                         {
-                            if (!CPUCore[j].isBusy())
+                            if (!CPUCore[j].getIsBusy())
                                 notBusyCount++;
                         }
 

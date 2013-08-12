@@ -60,7 +60,7 @@ public class ReadyQueue
             }
             return getPID;
         }else{
-            PCB.loop2 = false;
+            PCB.mSecondLoop = false;
             return -1;
         }
     }

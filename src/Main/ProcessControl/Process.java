@@ -16,97 +16,37 @@ import Main.Memory.RAM;
 
 public class Process
 {
-    /*
-    The CPU is supported by a PCB, which may have the following (suggested) structure:
+    private int mProcessId;
+    private int mProcessDiskStart;      //Instruction Disk locations & length
+    private int mProcessMemoryStart;    //Instruction Memory locations & length
+    private int mProcessCount;          //Given job instruction count by mid number in //JOB # # #
+    private int mProcessBaseRegister;   //Instruction RAM base-register
+    private int mDataDiskStart;         //Data Disk start location.
+    private int mDataMemoryStart;       //Data Memory start location.
+    private int mDataSize;              //Data Disk length
+    private int mJobPriority;           //Given job priorty by last Hexidecimal in //JOB # # #
+    private int mInputBufferWC;           //Number of words in each buffer.
+    private int mOutputBufferWC;
+    private int mTempBufferWC;
+    private int mProcessorState;
+    private int mNextInstruction;
+    private int mWaitType;               // 0 = none, 1 = IO, 2 = pageFault
+    private int mIOInstructCount;
+    private int mWaitTime;
+    private int mExecutionTime;
+    private int mFaultCount;
 
-    typedef struct PCB {
-        cpuid:				 information the assigned CPU (for multiprocessor system)
-        struct state:		// record of environment that is saved on interrupt
-                            // including the pc, registers,
-                             * buffers, -> Fake buffer containing the copy of what is currently in the buffer.
-                             * caches, -> Fake cache representing the copy of what is in the cache.
-                             * active
-                            // pages/blocks
-                             * code-size; (**All variables associated with process)
-        struct registers:	// accumulators(CPU String value.. current value), index (Value needed to add to the process ID)
-                            // general
-        struct sched:		// burst-time(integer::job size) , priority, queue-type(String for scheduler)
-                            //, time-slice, remain-time (burst - time = remaining for round robin)
-        struct accounts:	// cpu-time, time-limit, time-delays (accumalative), start/end times(from global time units)
-                            // io-times (how much time to request and get a service. Kernel time)
-        struct memories:	// page-table-base, pages, page-size
-                            // base-registers logical/physical map, limit-reg
-        struct progeny:		// child-procid, child-code-pointers
-        parent: ptr;		// pointer to parent (if this process is spawned, else null)
-        status_info:		// pointer to ready-list of active processes or
-                            // resource-list on blocked processes
-        priority: integer;	// of the process
-    }
-     */
+    public final static int DEFAULT_PROCESS = 0;
+    private static final int mRegisterSize = 16;
+    private static final int mInputBufferSize = 30;
+    private static final int mOutputBufferSize = 30;
 
-
-    private int proc_id;
-
-    //Instruction Disk locations & length
-    private int proc_diskStart;
-
-    //Instruction Memory locations & length
-    private int proc_memStart;
-
-    //Given job instruction count by mid number in //JOB # # #
-    private int proc_iCount;
-
-    //Instruction RAM base-register
-    private int proc_baseReg;
-
-    //Data Disk start location.
-    private int data_diskStart;
-
-    //Data Memory start location.
-    private int data_memStart;
-
-    //Data Disk length
-    private int data_size;
-
-    //Given job priorty by last Hexidecimal in //JOB # # #
-    private int jobPriority;
-
-    //Number of words in each buffer.
-    private int inputBuffer;
-    private int outputBuffer;
-    private int tempBuffer;
-
-    //Program Status
-//    private enum Status{ ready, waiting, running, terminated, created };
-    private int procState;
-//
-//    private State state;
-
-//    public final static int PROCESS_READY = 0;
-//    public final static int PROCESS_WAIT = 1;
-//    public final static int PROCESS_RUN = 2;
-//    public final static int PROCESS_TERMINATE = 3;
-//    public final static int PROCESS_HOLD = 4;
-    public final static int PROCESS_DEFAULT = 0;
-
-    private int next_instruct;
-    private int waitType; // 0 = none, 1 = IO, 2 = pageFault
-    private int prog_instruct_count;
-    private int ioInstructCount;
-    private int waitTime;
-    private int executionTime;
-    private int faultCount;
-
-    private static final int registerSize = 16;
-    private static final int inBuffSize = 30;
-    private static final int outBuffSize = 30;
-
-    private int [] registers;
+    private int [] mRegisters;
     private String [] inBuff;
-    private String [] outBuff;
-    private String [] tempBuff;
+    private String [] mOutputBuffer;
+    private String [] mTempBuffer;
 
-    private int [][] pageTable;
+    private int [][] mPageTable;
 
     /**
      * Default Constructor:: The method sets all object variables to values that
@@ -114,161 +54,134 @@ public class Process
      */
     public Process()
     {
-        proc_id = 0;
-        proc_diskStart = -1;
-        proc_memStart = -1;
-        proc_iCount = 0;
-        proc_baseReg = -1;
-        jobPriority = 0;
-        inputBuffer = -1;
-        outputBuffer = -1;
-        tempBuffer = -1;
-//        state = new State();
-        procState = Process.PROCESS_DEFAULT;
-        ioInstructCount = 0;
-        executionTime = 0;
-        waitTime = 0;
-        next_instruct = -1;
-        waitType = 0;
-        faultCount = 0;
+        mProcessId = 0;
+        mProcessDiskStart = -1;
+        mProcessMemoryStart = -1;
+        mProcessCount = 0;
+        mProcessBaseRegister = -1;
+        mJobPriority = 0;
+        mInputBufferWC = -1;
+        mOutputBufferWC = -1;
+        mTempBufferWC = -1;
+        mProcessorState = Process.DEFAULT_PROCESS;
+        mIOInstructCount = 0;
+        mExecutionTime = 0;
+        mWaitTime = 0;
+        mNextInstruction = -1;
+        mWaitType = 0;
+        mFaultCount = 0;
 
-        registers = new int [registerSize];
-        inBuff = new String [inBuffSize];
-        outBuff = new String [outBuffSize];
-        tempBuff = new String [inBuffSize];
+        mRegisters = new int [mRegisterSize];
+        inBuff = new String [mInputBufferSize];
+        mOutputBuffer = new String [mOutputBufferSize];
+        mTempBuffer = new String [mInputBufferSize];
 
-        pageTable = new int [5][1];
+        mPageTable = new int [5][1];
     }
 
     public int getProc_id()
     {
-        return proc_id;
+        return mProcessId;
     }
 
     public int getProc_diskStart()
     {
-        return proc_diskStart;
+        return mProcessDiskStart;
     }
 
     public int getProc_memStart()
     {
-        return proc_memStart;
+        return mProcessMemoryStart;
     }
 
     public int getProc_iCount()
     {
-        return proc_iCount;
+        return mProcessCount;
     }
-
-//    public int getProc_baseReg()
-//    {
-//        return proc_baseReg;
-//    }
 
     public int getData_diskStart()
     {
-        return data_diskStart;
+        return mDataDiskStart;
     }
 
     public int getData_memStart()
     {
-        return data_memStart;
+        return mDataMemoryStart;
     }
 
     public int getData_count()
     {
-        return data_size;
+        return mDataSize;
     }
 
     public int getJobPriority()
     {
-        return jobPriority;
+        return mJobPriority;
     }
 
     public int getInputBuffer()
     {
-        return inputBuffer;
+        return mInputBufferWC;
     }
-
-//    public void getInBuff()
-//    {
-//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
-//        {
-//            RAM.getInstance().write_loc(inBuff[i],(getData_memStart() + getData_count() + i));
-//        }
-//    }
 
     public int getOutputBuffer()
     {
-        return outputBuffer;
+        return mOutputBufferWC;
     }
-
-//    public void getOutBuff()
-//    {
-//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++)
-//        {
-//            RAM.getInstance().write_loc(outBuff[i],(getData_memStart() + getData_count() + getData_count() + i));
-//        }
-//    }
 
     public int getTempBuffer()
     {
-        return tempBuffer;
+        return mTempBufferWC;
     }
-
-//    public String [] getTempBuff()
-//    {
-//        return tempBuff;
-//    }
 
     public int [] getRegisters()
     {
-        return registers;
+        return mRegisters;
     }
 
     public int getProcState()
     {
-        return procState;
+        return mProcessorState;
     }
 
     public int getProgInstructCount()
     {
-        return prog_instruct_count;
+        return mProcessorState;
     }
 
     public int getExecTime()
     {
-        return executionTime;
+        return mExecutionTime;
     }
 
     public int getWaitTime()
     {
-        return waitTime;
+        return mWaitTime;
     }
 
     public int getIOCount()
     {
-        return ioInstructCount;
+        return mIOInstructCount;
     }
 
     public int getNextInstruct()
     {
-        return next_instruct;
+        return mNextInstruction;
     }
 
     public int getWaitType()
     {
-        return waitType;
+        return mWaitType;
     }
 
     public int getPageTable(int table)
     {
-        return pageTable[table][0];
+        return mPageTable[table][0];
     }
 
     public int getFaultCount()
     {
-        return faultCount;
+        return mFaultCount;
     }
 
     public void getFinalData()
@@ -292,8 +205,7 @@ public class Process
         System.out.format("%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s",
                 "- - - - -",
                 "",
-                "AVERAGE:",
-                (totalWait / totalProcs),
+                "AVERAGE:", (totalWait / totalProcs),
                 "",
                 ""+(totalExecute / totalProcs),
                 "",
@@ -307,18 +219,18 @@ public class Process
 
     public void setFaultCount()
     {
-        faultCount++;
+        mFaultCount++;
     }
 
     public void setPageTable(int table, int value)
     {
-        pageTable[table][0] = value;
+        mPageTable[table][0] = value;
     }
 
     public void setProc_id(int id)
     {
         if(id > 0) {
-            proc_id = id;
+            mProcessId = id;
         }else{
             ErrorLog.getInstance().writeError("Process.setProc_id(int) || >> ID # < 1");
             throw new IllegalArgumentException();
@@ -328,7 +240,7 @@ public class Process
     public void setProc_diskStart(int location)
     {
         if (location >= 0){
-            proc_diskStart = location;
+            mProcessDiskStart = location;
         }else{
             ErrorLog.getInstance().writeError("Process.setProc_diskStart(int) >> Disk location invalid");
             throw new IllegalArgumentException();
@@ -338,7 +250,7 @@ public class Process
     public void setProc_memStart(int location)
     {
         if( location >= 0){
-            proc_memStart = location;
+            mProcessMemoryStart = location;
         }else{
             ErrorLog.getInstance().writeError("Process.setProc_memStart(int) >> Memory location invalid");
             throw new IllegalArgumentException();
@@ -348,27 +260,18 @@ public class Process
     public void setProc_iCount(int count)
     {
         if( count > 0){
-            proc_iCount = count;
+            mProcessCount = count;
         }else{
             ErrorLog.getInstance().writeError("Process.setProc_iCount(int) >> Instruction count input < 1");
             throw new IllegalArgumentException();
         }
     }
 
-//    public void setProc_baseReg(int reg)
-//    {
-//        if(reg >= 0){
-//            proc_baseReg = reg;
-//        }else{
-//            ErrorLog.getInstance().writeError("Process.setProc_baseReg(int) >> Base Register number invalid.  reg < 0" );
-//            throw new IllegalArgumentException();
-//        }
-//    }
 
     public void setData_diskStart(int diskStart)
     {
         if (diskStart >= 0){
-            data_diskStart = diskStart;
+            mDataDiskStart = diskStart;
         }else{
             ErrorLog.getInstance().writeError("Process.setData_diskStart(int) >> Disk Start invalid.  diskStart < 0");
             throw new IllegalArgumentException();
@@ -378,7 +281,7 @@ public class Process
     public void setData_memStart(int memStart)
     {
         if(memStart >= 0) {
-            data_memStart = memStart;
+            mDataMemoryStart = memStart;
         }else {
             ErrorLog.getInstance().writeError("Process.setData_memStart(int) >> Invalid.  memStart < 0" );
             throw new IllegalArgumentException();
@@ -388,7 +291,7 @@ public class Process
     public void setData_size(int size)
     {
         if(size > 0){
-            data_size = size;
+            mDataSize = size;
         }else{
             ErrorLog.getInstance().writeError("Process.setData_size >> Size input parameter is invalid");
             throw new IllegalArgumentException();
@@ -398,7 +301,7 @@ public class Process
     public void setJobPriority(int priority)
     {
         if(priority > 0){
-            jobPriority = priority;
+            mJobPriority = priority;
         }else{
             ErrorLog.getInstance().writeError("Process.setJobPriority(int) >> priority < 1");
             throw new IllegalArgumentException();
@@ -408,7 +311,7 @@ public class Process
     public void setInputBuffer(int buff)
     {
         if(buff >= 0){
-            inputBuffer = buff;
+            mInputBufferWC = buff;
         }else{
             ErrorLog.getInstance().writeError("Process.setInputbuffer(int) >> buff < 0");
             throw new IllegalArgumentException();
@@ -418,10 +321,10 @@ public class Process
     public void setInBuff()
     {
         int count = 0;
-        System.out.println(proc_id + " :: Mem:" + getData_memStart() + " Data:" + getData_count() + " iBuff:" + getInputBuffer());
+        System.out.println(mProcessId + " :: Mem:" + getData_memStart() + " Data:" + getData_count() + " iBuff:" + getInputBuffer());
         for (int i = (getData_memStart() + getData_count()); i < (getData_memStart() + getData_count() + getInputBuffer()); i++)
         {
-            System.out.println(proc_id + " :: i:" + i + " count:" + count + " Loc:" + (getData_memStart() - getData_count()));
+            System.out.println(mProcessId + " :: i:" + i + " count:" + count + " Loc:" + (getData_memStart() - getData_count()));
             inBuff[count] = RAM.getInstance().read(i);
             count++;
         }
@@ -430,129 +333,76 @@ public class Process
     public void setOutputBuffer(int outBuff)
     {
         if(outBuff >= 0){
-            outputBuffer = outBuff;
+            mOutputBufferWC = outBuff;
         }else{
             ErrorLog.getInstance().writeError("Process.setOutputBuffer(int) >> outBuff < 0");
             throw new IllegalArgumentException();
         }
     }
 
-//    public void setOutBuff()
-//    {
-//        for (int i = 0; i < (getProc_memStart() - getProc_iCount()); i++){
-//            outBuff[i] = RAM.getInstance().read(getData_memStart() + getData_count() + getData_count() + i);
-//        }
-//    }
-
     public void setTempBuffer(int tempBuff)
     {
         if(tempBuff >= 0) {
-            tempBuffer = tempBuff;
+            mTempBufferWC = tempBuff;
         }else{
             ErrorLog.getInstance().writeError("Process.setOutputBuffer(int) || >> tempBuff < 0");
             throw new IllegalArgumentException();
         }
     }
 
-//    public void setTempBuff(String[] temp)
-//    {
-//        tempBuff = temp;
-//    }
-
     public void setRegisters(int [] temp)
     {
-        registers = temp;
+        mRegisters = temp;
     }
 
     public void setProcState(int state)
     {
-        if(0 <= state && state <= 5){
-            //System.out.println("Proc State change: " + state);
-            procState = state;
-        }else{
+        if(0 <= state && state <= 5)
+            mProcessorState = state;
+        else{
             ErrorLog.getInstance().writeError("ProcessData.setProcState(int) >> Invalid. 0 <= X <= 4");
             throw new IllegalArgumentException();
         }
     }
 
-//    public int setProgInstructCount(int i)
-//    {
-//        if(i > 0){
-//            prog_instruct_count = i;
-//            return prog_instruct_count;
-//        }else{
-//            ErrorLog.getInstance().writeError("Process.setProgInstructCount >> Invalid");
-//            throw new IllegalArgumentException();
-//        }
-//    }
-//
-//    public State getState()
-//    {
-//        return state;
-//    }
-
-//    public String getProcessState()
-//    {
-//        switch(procState)
-//        {
-//            case(0):
-//                return "Ready";
-//            case(1):
-//                return "Waiting";
-//            case(2):
-//                return "Running";
-//            case(3):
-//                return "Terminated";
-//            case(4):
-//                return "Undefined Process";
-//            default:
-//                return null;
-//        }
-//    }
-
-//    public void setWaitType(int wait)
-//    {
-//        waitType = wait;
-//    }
-
     public void setExecTime(int cost)
     {
-        executionTime += cost;
+        mExecutionTime += cost;
     }
 
     public void setWaitTime(int waitcost)
     {
         if (waitcost == 0)
-            waitTime = 0;
+            mWaitTime = 0;
         else
-            waitTime += waitcost;
+            mWaitTime += waitcost;
     }
 
     public void setIOCount(int ioCost)
     {
-        ioInstructCount+= ioCost;
+        mIOInstructCount+= ioCost;
     }
 
     public void setNextInstruct(int nextInstr)
     {
-        next_instruct = nextInstr;
+        mNextInstruction = nextInstr;
     }
 
     public String toString()
     {
         String temp = "Process Job:";
-        temp += "\nPid: " + proc_id;
-        temp += "\nP_diskStart: " + proc_diskStart;
-        temp += "\nP_memStart: " + proc_memStart;
-        temp += "\nP_iCount: " + proc_iCount;
-        temp += "\nP_baseReg: " + proc_baseReg;
-        temp += "\nd_diskStart: " + data_diskStart;
-        temp += "\nd_memStart: " + data_memStart;
-        temp += "\nd_size: " + data_size;
-        temp += "\nJob_Priority: " + jobPriority;
-        temp += "\nInput_buff: " + inputBuffer;
-        temp += "\nOutput_Buff: " + outputBuffer;
-        temp += "\ntemp_buff: " + tempBuffer;
+        temp += "\nProcessId: " + mProcessId;
+        temp += "\nProcessDiskStart: " + mProcessDiskStart;
+        temp += "\nProcessMemoryStart: " + mProcessMemoryStart;
+        temp += "\nProcessCount: " + mProcessCount;
+        temp += "\nProcessBaseReg: " + mProcessBaseRegister;
+        temp += "\nDataDiskStart: " + mDataDiskStart;
+        temp += "\nDataMemoryStart: " + mDataMemoryStart;
+        temp += "\nDataSize: " + mDataSize;
+        temp += "\nJobPriority: " + mJobPriority;
+        temp += "\nInputBuffer: " + mInputBufferWC;
+        temp += "\nOutputBuffer: " + mOutputBufferWC;
+        temp += "\nTemporaryBuffer: " + mTempBufferWC;
 
         return temp;
     }

@@ -12,46 +12,45 @@ import Main.ProcessControl.*;
 
 public class Dispatcher
 {
-    private Dispatcher dispatch;
-    protected Main.ProcessControl.Process currentProc;
-    private int currentInstr;
-    private boolean term;
+    protected Main.ProcessControl.Process mCurrentProc;
+    private int mCurrentInstr;
+    private boolean mTerm;
 
-    private int runCPU;
+    private int mRunCPU;
 
     public Dispatcher(int i)
     {
-        currentProc = null;
-        currentInstr = -1;
-        runCPU = i;
-        term = false;
+        mCurrentProc = null;
+        mCurrentInstr = -1;
+        mRunCPU = i;
+        mTerm = false;
     }
 
     public void give_proc(int proc_id)
     {
-        currentProc = PCB.getInstance().getJob(proc_id);
+        mCurrentProc = PCB.getInstance().getJob(proc_id);
         PCB.getInstance().getJob(proc_id).setProcState(2);
-        currentInstr = currentProc.getNextInstruct();
-        term = false;
+        mCurrentInstr = mCurrentProc.getNextInstruct();
+        mTerm = false;
     }
 
     public int get()
     {
-        if (Driver.contextSwitch && (MultiDispatch.getDispatch(runCPU).currentProc.getProcState() == 4))
+        if (Driver.contextSwitch && (Dispatch.getDispatch(mRunCPU).mCurrentProc.getProcState() == 4))
         {
-            WaitQueue.addItem(MultiDispatch.getDispatch(runCPU).currentProc.getProc_id(), MultiDispatch.getDispatch(runCPU).currentProc.getWaitType());
+            WaitQueue.addItem(Dispatch.getDispatch(mRunCPU).mCurrentProc.getProc_id(), Dispatch.getDispatch(mRunCPU).mCurrentProc.getWaitType());
             return -1;
         }
         else
         {
-            if(MultiDispatch.getDispatch(runCPU).currentProc == null)
+            if(Dispatch.getDispatch(mRunCPU).mCurrentProc == null)
             {
                 throw new IllegalArgumentException();
             }
             else
             {
-                int newPC = currentInstr;
-                currentInstr++;
+                int newPC = mCurrentInstr;
+                mCurrentInstr++;
                 return newPC;
             }
         }
@@ -59,21 +58,21 @@ public class Dispatcher
 
     protected void set(int newInstr)
     {
-        int processStart = currentProc.getProc_memStart();
-        int processEnd = processStart + currentProc.getProgInstructCount();
+        int processStart = mCurrentProc.getProc_memStart();
+        int processEnd = processStart + mCurrentProc.getProgInstructCount();
         if((newInstr >= processStart) && (newInstr <= processEnd))
-            currentInstr = newInstr;
+            mCurrentInstr = newInstr;
     }
 
 
     public boolean getTerminate()
     {
-        return term;
+        return mTerm;
     }
 
     protected void setTerminate()
     {
-        term = true;
+        mTerm = true;
     }
 }
 

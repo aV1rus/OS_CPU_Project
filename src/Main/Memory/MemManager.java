@@ -8,54 +8,53 @@ package Main.Memory;
  *
  *
  */
+import Main.Constants.Constants;
 import Main.ProcessControl.PCB;
 import Main.ProcessControl.ReadyQueue;
 
 public class MemManager
 {
-    private static frame [] frameTable;
-
-    private static int processesServed = 1;
-    private static int startProcess = 1;
-
-    private static int currProc = -1;
-    private static int currBuff = -1;
+    private static frame [] mFrameTable;
+    private static int mProcessesServed = 1;
+    private static int mStartProcess = 1;
+    private static int mCurrentProcess = -1;
+    private static int mCurrentBuffer = -1;
 
     public MemManager()
     {
-        frameTable = new frame [(PCB.getInstance().lastJob()) + 1];
+        mFrameTable = new frame [(PCB.getInstance().lastJob()) + 1];
 
 
-        for (int i = 0; i < (frameTable.length); i++)
+        for (int i = 0; i < (mFrameTable.length); i++)
         {
-            frameTable[i] = new frame();
+            mFrameTable[i] = new frame();
 
         }
     }
 
     public void makeMMU()
     {
-        currProc = -1;
-        currBuff = -1;
-        startProcess = processesServed;
+        mCurrentProcess = -1;
+        mCurrentBuffer = -1;
+        mStartProcess = mProcessesServed;
 
-        for (int i = startProcess; i < (ReadyQueue.getInstance().getSize() + 1); i++)
+        for (int i = mStartProcess; i < (ReadyQueue.getInstance().getSize() + 1); i++)
         {
-            processesServed++;
-            frameTable[i].owner = PCB.getInstance().getJob(i).getProc_id();
-            frameTable [i].number = i;
+            mProcessesServed++;
+            mFrameTable[i].owner = PCB.getInstance().getJob(i).getProc_id();
+            mFrameTable [i].number = i;
 
             for (int j = 0; j < 5; j++)
-                PCB.getInstance().getJob(frameTable[i].owner).setPageTable(j, 0);
+                PCB.getInstance().getJob(mFrameTable[i].owner).setPageTable(j, 0);
 
 
             for (int k = 0; k < 4; k++)
             {
-                frameTable [i].buffer[0].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getProc_memStart() + k);
-                frameTable [i].buffer[1].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + k);
-                frameTable [i].buffer[2].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getInputBuffer() + PCB.getInstance().getJob(i).getOutputBuffer())) + PCB.getInstance().getJob(i).getTempBuffer() + k);
-                frameTable [i].buffer[3].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getOutputBuffer() + PCB.getInstance().getJob(i).getTempBuffer())) + k);
-                frameTable [i].buffer[4].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getTempBuffer())) + k);
+                mFrameTable [i].buffer[0].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getProc_memStart() + k);
+                mFrameTable [i].buffer[1].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + k);
+                mFrameTable [i].buffer[2].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getInputBuffer() + PCB.getInstance().getJob(i).getOutputBuffer())) + PCB.getInstance().getJob(i).getTempBuffer() + k);
+                mFrameTable [i].buffer[3].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getOutputBuffer() + PCB.getInstance().getJob(i).getTempBuffer())) + k);
+                mFrameTable [i].buffer[4].value[k] = RAM.getInstance().DMAread(PCB.getInstance().getJob(i).getData_memStart() + (PCB.getInstance().getJob(i).getData_count() - (PCB.getInstance().getJob(i).getTempBuffer())) + k);
 
             }
         }
@@ -65,23 +64,23 @@ public class MemManager
     public static String get(int loc, int d, int p)
     {
         findProc(d,p);
-        findBuff(currProc,d,p);
+        findBuff(mCurrentProcess,d,p);
 
         if (valid(d))
         {
-            return frameTable[currProc].buffer[currBuff].value[p];
+            return mFrameTable[mCurrentProcess].buffer[mCurrentBuffer].value[p];
         }
         else
         {
             pageFault(d,p);
-            return "page fault";
+            return Constants.PAGE_FAULT;
         }
     }
 
     public static void write(String data, int d, int p)
     {
         findProc(d,p);
-        findBuff(currProc,d,p);
+        findBuff(mCurrentProcess,d,p);
 
         if (valid(d))
         {
@@ -95,22 +94,22 @@ public class MemManager
     {
 
         boolean found = false;
-        int count = startProcess;
+        int count = mStartProcess;
 
         while (!found)
         {
 
-            if (count > frameTable.length)
+            if (count > mFrameTable.length)
                 found = false;
             else
             {
-                currProc = frameTable[count].owner;
-                if (frameTable[count].equals(null))
+                mCurrentProcess = mFrameTable[count].owner;
+                if (mFrameTable[count].equals(null))
                 {
                     found = true;
 
                 }
-                if (((PCB.getInstance().getJob(frameTable[count].number).getProc_memStart()) <= (d*4+p)) && ((PCB.getInstance().getJob(frameTable[count].number).getData_memStart() + PCB.getInstance().getJob(frameTable[count].number).getData_count()) > (d*4+p)))
+                if (((PCB.getInstance().getJob(mFrameTable[count].number).getProc_memStart()) <= (d*4+p)) && ((PCB.getInstance().getJob(mFrameTable[count].number).getData_memStart() + PCB.getInstance().getJob(mFrameTable[count].number).getData_count()) > (d*4+p)))
                 {
                     found = true;
                 }
@@ -123,23 +122,23 @@ public class MemManager
     private static void findBuff( int proc, int d, int p)
     {
 
-        if (PCB.getInstance().getJob(currProc).getData_memStart() > (d*4+p))
-            currBuff = 0;
-        else if ((PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getInputBuffer() - PCB.getInstance().getJob(currProc).getOutputBuffer() - PCB.getInstance().getJob(currProc).getTempBuffer())) > (d*4+p))
-            currBuff = 1;
-        else if ((PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getOutputBuffer() - PCB.getInstance().getJob(currProc).getTempBuffer())) > (d*4+p))
-            currBuff = 2;
-        else if ((PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getTempBuffer())) > (d*4+p))
-            currBuff = 3;
+        if (PCB.getInstance().getJob(mCurrentProcess).getData_memStart() > (d*4+p))
+            mCurrentBuffer = 0;
+        else if ((PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getInputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getOutputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer())) > (d*4+p))
+            mCurrentBuffer = 1;
+        else if ((PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getOutputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer())) > (d*4+p))
+            mCurrentBuffer = 2;
+        else if ((PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer())) > (d*4+p))
+            mCurrentBuffer = 3;
         else
-            currBuff = 4;
+            mCurrentBuffer = 4;
 
 
     }
 
     public static boolean valid(int d)
     {
-        if ((d) == PCB.getInstance().getJob(currProc).getPageTable(currBuff))
+        if ((d) == PCB.getInstance().getJob(mCurrentProcess).getPageTable(mCurrentBuffer))
             return true;
         else
             return false;
@@ -147,10 +146,10 @@ public class MemManager
 
     public static void pageFault(int d, int p)
     {
-        PCB.getInstance().getJob(currProc).setProcState(4);
-        PCB.getInstance().getJob(currProc).setFaultCount();
+        PCB.getInstance().getJob(mCurrentProcess).setProcState(4);
+        PCB.getInstance().getJob(mCurrentProcess).setFaultCount();
         MemManager.pageSwitch(d);
-        PCB.getInstance().getJob(currProc).setPageTable(currBuff, (d));
+        PCB.getInstance().getJob(mCurrentProcess).setPageTable(mCurrentBuffer, (d));
 
     }
 
@@ -158,22 +157,22 @@ public class MemManager
     {
         int loc = -1;
 
-        if (currBuff == 0)
-            loc = PCB.getInstance().getJob(currProc).getProc_memStart();
-        else if (currBuff == 1)
-            loc = PCB.getInstance().getJob(currProc).getData_memStart();
-        else if (currBuff == 2)
-            loc = PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getInputBuffer() - PCB.getInstance().getJob(currProc).getOutputBuffer() - PCB.getInstance().getJob(currProc).getTempBuffer());
-        else if (currBuff == 3)
-            loc = PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getOutputBuffer() - PCB.getInstance().getJob(currProc).getTempBuffer());
-        else if (currBuff == 4)
-            loc = PCB.getInstance().getJob(currProc).getData_memStart() + (PCB.getInstance().getJob(currProc).getData_count() - PCB.getInstance().getJob(currProc).getTempBuffer());
+        if (mCurrentBuffer == 0)
+            loc = PCB.getInstance().getJob(mCurrentProcess).getProc_memStart();
+        else if (mCurrentBuffer == 1)
+            loc = PCB.getInstance().getJob(mCurrentProcess).getData_memStart();
+        else if (mCurrentBuffer == 2)
+            loc = PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getInputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getOutputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer());
+        else if (mCurrentBuffer == 3)
+            loc = PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getOutputBuffer() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer());
+        else if (mCurrentBuffer == 4)
+            loc = PCB.getInstance().getJob(mCurrentProcess).getData_memStart() + (PCB.getInstance().getJob(mCurrentProcess).getData_count() - PCB.getInstance().getJob(mCurrentProcess).getTempBuffer());
 
         for (int i = 0; i < 4; i++)
         {
-            if (currProc > 1)
+            if (mCurrentProcess > 1)
                 loc = 0;
-            frameTable[currProc].buffer[currBuff].value[i] = RAM.getInstance().DMAread(loc + (page * 4)+ i);
+            mFrameTable[mCurrentProcess].buffer[mCurrentBuffer].value[i] = RAM.getInstance().DMAread(loc + (page * 4)+ i);
         }
     }
 
@@ -181,10 +180,10 @@ public class MemManager
     {
         String returnValue = "";
 
-        for (int i = startProcess; i < processesServed; i++)
+        for (int i = mStartProcess; i < mProcessesServed; i++)
             for (int j = 0; j < 5; j++ )
                 for (int k = 0; k < 4; k++)
-                    returnValue+=("FrameTable: Proc " + i + " : Buff " + j + " : frame " + k + " = " + frameTable[i].buffer[j].value[k] + "\n");
+                    returnValue+=("FrameTable: Proc " + i + " : Buff " + j + " : frame " + k + " = " + mFrameTable[i].buffer[j].value[k] + "\n");
 
         System.out.println(returnValue);
     }

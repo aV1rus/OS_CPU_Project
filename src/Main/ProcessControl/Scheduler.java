@@ -163,7 +163,7 @@ public class Scheduler
                             break;
                     }
                     //if we are done, decrement the incremented iterator
-                    if (!PCB.getInstance().done)
+                    if (!PCB.getInstance().mDone)
                         PCB.getInstance().reduceIter();
                 }
                 else

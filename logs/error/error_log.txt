@@ -4,3 +4,12 @@ null value
 RAM::write_loc || >> Invalid -- Mon Jul 15 10:59:28 EDT 2013
 null value
  -- Mon Jul 15 10:59:28 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:26:40 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:27:41 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:27:47 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:27:51 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:27:57 EDT 2013
+CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:28:33 EDT 2013
+CPU::jump() || >> Invalid instruction -- Mon Aug 12 17:34:37 EDT 2013
+CPU::inputOutput() || >> Invalid instruction -- Mon Aug 12 17:46:19 EDT 2013
+CPU::inputOutput() || >> Invalid instruction -- Mon Aug 12 17:47:24 EDT 2013

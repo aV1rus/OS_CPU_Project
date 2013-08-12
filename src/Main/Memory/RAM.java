@@ -12,23 +12,22 @@ import Main.Log.ErrorLog;
 
 public class RAM
 {
-    private String [] ram;
-    private int next_loc;
-
-    private static RAM ram_obj;
+    private String [] mRamArray;
+    private int mNextLocation;
+    private static RAM mRam;
 
     private RAM()
     {
-        ram = new String[Driver.amtOfRAM];
-        next_loc = 0;
+        mRamArray = new String[Driver.amtOfRAM];
+        mNextLocation = 0;
     }
 
     public synchronized static RAM getInstance()
     {
-        if(ram_obj == null){
-            ram_obj = new RAM();
+        if(mRam == null){
+            mRam = new RAM();
         }
-        return ram_obj;
+        return mRam;
     }
 
     public String read(int loc)
@@ -36,7 +35,7 @@ public class RAM
         if(loc >= 0 && loc < Driver.amtOfRAM)
         {
             if (!Driver.contextSwitch)
-                return ram[loc];
+                return mRamArray[loc];
             else
             {
                 int d = (loc / 4);
@@ -56,7 +55,7 @@ public class RAM
 
         if(loc >= 0 && loc < Driver.amtOfRAM)
         {
-            return ram[loc];
+            return mRamArray[loc];
         }
         else
         {
@@ -77,7 +76,7 @@ public class RAM
             {
                 if(loc >= 0 && loc < Driver.amtOfRAM)
                 {
-                    ram[loc] = data;
+                    mRamArray[loc] = data;
                 }
                 else
                 {
@@ -98,7 +97,7 @@ public class RAM
     {
         if( data != null){
             if(loc >= 0 && loc < Driver.amtOfRAM){
-                ram[loc] = data;
+                mRamArray[loc] = data;
             }else{
                 ErrorLog.getInstance().writeError("RAM::write_loc || >> Invalid parameter given.");
                 throw new IllegalArgumentException();
@@ -117,10 +116,10 @@ public class RAM
         int returnLoc = -1;
 
         if(data != null){
-            if(next_loc >= 0 && next_loc < Driver.amtOfRAM){
-                ram[next_loc] = data;
-                returnLoc = next_loc;
-                next_loc++;
+            if(mNextLocation >= 0 && mNextLocation < Driver.amtOfRAM){
+                mRamArray[mNextLocation] = data;
+                returnLoc = mNextLocation;
+                mNextLocation++;
             }else{
                 ErrorLog.getInstance().writeError("RAM::write_loc || >> Invalid address.");
                 throw new IllegalArgumentException();
@@ -137,8 +136,8 @@ public class RAM
     public void resetRAM()
     {
         for (int i = 0;i < Driver.amtOfRAM; i++)
-            ram[i] = "";
-        next_loc=0;
+            mRamArray[i] = "";
+        mNextLocation=0;
     }
 
 //    public String[] getMemDump()
@@ -155,7 +154,7 @@ public class RAM
 
     public int get_next_loc()
     {
-        return next_loc;
+        return mNextLocation;
     }
 
     public int sizeOfRam()
@@ -167,9 +166,9 @@ public class RAM
     {
         String temp = "Memory Dump:";
 
-        for(int i = 0; i < ram.length; i++)
+        for(int i = 0; i < mRamArray.length; i++)
         {
-            temp += "\n" + ram[i];
+            temp += "\n" + mRamArray[i];
         }
 
         return temp;

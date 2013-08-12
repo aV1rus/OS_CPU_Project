@@ -7,6 +7,9 @@ package Main.ControlUnit;
  * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
  */
+import Main.Constants.Constants;
+import Main.Constants.InstructionFormats;
+import Main.Constants.InstructionSets;
 import Main.Driver;
 import Main.Log.ErrorLog;
 import Main.Memory.RAM;
@@ -15,34 +18,32 @@ import Main.ProcessControl.PCB;
 
 public class CPU
 {
-    private static CPU cpu;
-    int[] reg;
-    final static int acc = 0;
-    final static int zeroIndex = 1;
-    static String PC;
-    private boolean busy;
+    int[] mReg;
+    final static int mBeginIndex = 1;
+    static String mPageCode;            //Full Page Code
+    private String mRAMRead;            //Current RAM read for buff
+    private boolean mIsBusy;
+    private int mCPUBeingUsed;
+    private int mRunInstruction;
+    private int mProcessorId;
 
-    private int runCPU;
-    private int runInstr;
-    private int pid;
-
-    private String RAMRead = "";
 
     public CPU()
     {
-        reg = new int[16];
-        PC = null;
-        busy = false;
+        mRAMRead = "";
+        mReg = new int[16];
+        mPageCode  = null;
+        mIsBusy = false;
     }
 
-    public boolean isBusy()
+    public boolean getIsBusy()
     {
-        return busy;
+        return mIsBusy;
     }
 
-    public void isBusy(boolean stat)
+    public void setIsBusy(boolean stat)
     {
-        busy = stat;
+        mIsBusy = stat;
     }
 
 
@@ -50,17 +51,13 @@ public class CPU
 
     public void fetch()
     {
-        int newAdd = runInstr;
+        int newAdd = mRunInstruction;
         if((newAdd >= 0) && (newAdd < RAM.getInstance().sizeOfRam()))
         {
-            RAMRead = RAM.getInstance().read(newAdd);
-            if (RAMRead == "page fault")
-            {
-                park(1);
-                PC = RAMRead;
-            }
-            else
-                PC = RAMRead;
+            mRAMRead = RAM.getInstance().read(newAdd);
+            if ( mRAMRead.equals(Constants.PAGE_FAULT) ) park(1);
+
+            mPageCode = mRAMRead;
         }
         else
         {
@@ -69,10 +66,19 @@ public class CPU
         }
     }
 
+    public void moveToNext()
+    {
+        PCB.getInstance().getJob(mProcessorId).setExecTime(1);
+        for (int i = PCB.getInstance().getJob(mProcessorId).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
+        {
+            if((PCB.getInstance().getJob(i).getProcState()) < 2)
+                PCB.getInstance().getJob(i).setWaitTime(1);
+        }
+    }
 
     // accepts an instruction in hex format, decodes it into binary,
     // and creates an Instruction object from the binary representation
-    private void execute(String hex)
+    private void executeCode(String hex)
     {
 
         String binInstr = parseInstruction(hex);
@@ -80,67 +86,33 @@ public class CPU
         String format = instr.getFormat();
         String op = instr.getOpcode();
 
-        if(op.equals("13"))
-        {
-            PCB.getInstance().getJob(pid).setExecTime(1);
-            for (int i = PCB.getInstance().getJob(pid).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
-            {
-                if((PCB.getInstance().getJob(i).getProcState()) < 2)
-                    PCB.getInstance().getJob(i).setWaitTime(1);
-            }
-        }
 
-        else if(format.equals("00")){
-            PCB.getInstance().getJob(pid).setExecTime(1);
-            for (int i = PCB.getInstance().getJob(pid).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
-            {
-                if((PCB.getInstance().getJob(i).getProcState()) < 2)
-                    PCB.getInstance().getJob(i).setWaitTime(1);
-            }
+        if(op.equals(InstructionFormats.INSTRUCTION_FORMAT_DO_NOTHING))
+            moveToNext();
 
+        else if(format.equals(InstructionFormats.INSTRUCTION_FORMAT_ARITHMETIC)){
+
+            moveToNext();
             arithReg(instr);
-        }
 
-        else if(format.equals("01")){
-            PCB.getInstance().getJob(pid).setExecTime(1);
-            for (int i = PCB.getInstance().getJob(pid).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
-            {
-                if((PCB.getInstance().getJob(i).getProcState()) < 2)
-                    PCB.getInstance().getJob(i).setWaitTime(1);
-            }
+        }else if(format.equals(InstructionFormats.INSTRUCTION_FORMAT_CONDITIONAL)){
 
-            condImm(instr);
-        }
+            moveToNext();
+            conditionalImmediate(instr);
 
-        else if(format.equals("10")){
-            PCB.getInstance().getJob(pid).setExecTime(1);
-            for (int i = PCB.getInstance().getJob(pid).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
-            {
-                if((PCB.getInstance().getJob(i).getProcState()) < 2)
-                    PCB.getInstance().getJob(i).setWaitTime(1);
-            }
+        }else if(format.equals(InstructionFormats.INSTRUCTION_FORMAT_UNCONDITIONAL)){
 
+            moveToNext();
             jump(instr);
-        }
 
-        else if(format.equals("11")){
-            PCB.getInstance().getJob(pid).setExecTime(1);
-            PCB.getInstance().getJob(pid).setIOCount(1);
+        }else if(format.equals(InstructionFormats.INSTRUCTION_FORMAT_IO)){
+
+            PCB.getInstance().getJob(mProcessorId).setIOCount(1);
             park(0);
+            moveToNext();
+            inputOutput(instr, mProcessorId);
 
-            for (int i = PCB.getInstance().getJob(pid).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
-            {
-                if((PCB.getInstance().getJob(i).getProcState()) < 2)
-                {
-                    PCB.getInstance().getJob(i).setWaitTime(5);
-
-                }
-            }
-
-            inputOutput(instr, pid);
-        }
-        else
-        {
+        }else{
             ErrorLog.getInstance().writeError("CPU::execute() || >> Invalid instruction");
             throw new IllegalArgumentException();
         }
@@ -149,27 +121,21 @@ public class CPU
 
     private  void inputOutput(Instruction instr, int pid)
     {
-
-        int reg1 = Integer.parseInt(instr.getParams().substring(0, 4), 2);
-        int reg2 = Integer.parseInt(instr.getParams().substring(4, 8), 2); // I/O buffer offset
         int address = Integer.parseInt(instr.getParams().substring(8, 24), 2); // I/O buffer address
         String op = instr.getOpcode();
 
-        if(op.equals("00000000"))
+        if(op.equals(InstructionSets.INSTRUCTION_SET_READ))
         {
-            RAMRead = (RAM.getInstance().read(PCB.getInstance().getJob(pid).getData_memStart() + (address/4)));
-            if (RAMRead == "page fault")
-            {
-                //System.out.println("CPU: parked at RAMRead");
+            mRAMRead = (RAM.getInstance().read(PCB.getInstance().getJob(pid).getData_memStart() + (address/4)));
+            if (mRAMRead.equals(Constants.PAGE_FAULT) )
                 park(1);
-            }
             else
-                reg[acc] += Integer.parseInt(RAMRead, 16);
+                mReg[0] += Integer.parseInt(mRAMRead, 16);
         }
-        else if (op.equals("00000001"))
+        else if (op.equals(InstructionSets.INSTRUCTION_SET_WRITE))
         {
-            String writeValue = Integer.toHexString(reg[acc]);
-            RAM.getInstance().write_loc(writeValue, (PCB.getInstance().getJob(pid).getProc_memStart() + (address/4) ));// + reg[reg2]));
+            String writeValue = Integer.toHexString(mReg[0]);
+            RAM.getInstance().write_loc(writeValue, (PCB.getInstance().getJob(pid).getProc_memStart() + (address/4) ));
         }
 
         else
@@ -188,46 +154,44 @@ public class CPU
 
         String op = instr.getOpcode();
 
-        if(op.equals("00000100")) // MV
-            reg[dReg] = reg[sReg1] + reg[zeroIndex];
+        if(op.equals(InstructionSets.INSTRUCTION_SET_MV)) // MV
+            mReg[dReg] = mReg[sReg1] + mReg[mBeginIndex];
 
-        else if(op.equals("00000101")) // ADD
-            reg[dReg] = reg[sReg1] + reg[sReg2];
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_ADD)) // ADD
+            mReg[dReg] = mReg[sReg1] + mReg[sReg2];
 
-        else if(op.equals("00000110")) // SUB
-            reg[dReg] = reg[sReg1] - reg[sReg2];
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_SUB)) // SUB
+            mReg[dReg] = mReg[sReg1] - mReg[sReg2];
 
-        else if(op.equals("00000111")) // MUL
-            reg[dReg] = reg[sReg1] * reg[sReg2];
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_MUL)) // MUL
+            mReg[dReg] = mReg[sReg1] * mReg[sReg2];
 
-        else if(op.equals("00001000")) // DIV
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_DIV)) // DIV
         {
-            if ((reg[sReg2] == 0) || (reg[sReg1] == 0))
-                reg[dReg] = 0;
+            if ((mReg[sReg2] == 0) || (mReg[sReg1] == 0))
+                mReg[dReg] = 0;
             else
-                reg[dReg] = reg[sReg2] / reg[sReg1];
+                mReg[dReg] = mReg[sReg2] / mReg[sReg1];
         }
 
-        else if(op.equals("00001001")) // bitwise AND
-            reg[dReg] = reg[sReg1] & reg[sReg2];
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_AND)) // bitwise AND
+            mReg[dReg] = mReg[sReg1] & mReg[sReg2];
 
-        else if(op.equals("00001010")) // bitwise OR
-            reg[dReg] = reg[sReg1] | reg[sReg2];
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_OR)) // bitwise OR
+            mReg[dReg] = mReg[sReg1] | mReg[sReg2];
 
-        else if(op.equals("00010000")) // SLT
-            reg[dReg] = (reg[sReg1] > reg[sReg2])? 0 : 1;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_SLT)) // SLT
+            mReg[dReg] = (mReg[sReg1] > mReg[sReg2])? 0 : 1;
 
         else
         {
             ErrorLog.getInstance().writeError("CPU::arithReg() || >> Invalid instruction");
             throw new IllegalArgumentException();
         }
-
-        //System.out.println("D Reg Final: " + dReg + " :: " + reg[dReg]);
     }
 
     // instruction block for conditional / immediate format
-    private void condImm(Instruction instr)
+    private void conditionalImmediate(Instruction instr)
     {
         int bReg = Integer.parseInt(instr.getParams().substring(0, 4), 2); // base register
         int dReg = Integer.parseInt(instr.getParams().substring(4, 8), 2); // destination register
@@ -235,115 +199,101 @@ public class CPU
 
         String op = instr.getOpcode();
 
-        if(op.equals("00001011")) // MOVI
-            reg[dReg] = reg[bReg] + reg[zeroIndex];
+        if(op.equals(InstructionSets.INSTRUCTION_SET_MOVI))
+            mReg[dReg] = mReg[bReg] + mReg[mBeginIndex];
 
-        else if(op.equals("00001100")) // ADDI
-            reg[dReg] = reg[bReg] + address;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_ADDI))
+            mReg[dReg] = mReg[bReg] + address;
 
-        else if(op.equals("00001101")) // MULI
-            reg[dReg] = reg[bReg] * address;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_MULI))
+            mReg[dReg] = mReg[bReg] * address;
 
-        else if(op.equals("00001110")) // DIVI
-            reg[dReg] = reg[bReg] / address;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_DIVI))
+            mReg[dReg] = mReg[bReg] / address;
 
-        else if(op.equals("00001111")) // LDI
-            reg[dReg] = reg[zeroIndex] + address;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_LDI))
+            mReg[dReg] = mReg[mBeginIndex] + address;
 
-        else if(op.equals("00010001")) // SLTI
-            reg[dReg] = (reg[bReg] > address)? 0 : 1;
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_SLTI))
+            mReg[dReg] = (mReg[bReg] > address)? 0 : 1;
 
-        else if(op.equals("00010101")) // BEQ
-            if(reg[bReg] == reg[dReg])
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BEQ))
+            if(mReg[bReg] == mReg[dReg])
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
-        else if(op.equals("00010110")) // BEQ
-            if(reg[bReg] != reg[dReg])
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BNE))
+            if(mReg[bReg] != mReg[dReg])
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
-        else if(op.equals("00010111")) // BEZ
-            if(reg[bReg] == 0)
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BEZ))
+            if(mReg[bReg] == 0)
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
-        else if(op.equals("00011000")) // BNZ
-            if(reg[bReg] != 0)
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BNZ))
+            if(mReg[bReg] != 0)
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
-        else if(op.equals("00011001")) // BGZ
-            if(reg[bReg] > 0)
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BGZ))
+            if(mReg[bReg] > 0)
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
-        else if(op.equals("00011010")) // BLZ
-            if(reg[bReg] < 0)
-                MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_BLZ))
+            if(mReg[bReg] < 0)
+                Dispatch.getDispatch(mCPUBeingUsed).set(address);
             else{
                 ErrorLog.getInstance().writeError("CPU::condImm() || >> Invalid instruction");
                 throw new IllegalArgumentException();
             }
 
-        //System.out.println("dReg Final: " + dReg + " :: " + reg[dReg]);
     }
 
     private void jump(Instruction instr)
     {
         //set starting address (factor in word size)
         int address = (Integer.parseInt(instr.getParams())/4);
-        String op = instr.getOpcode(); //parseInstruction(instr.getOpcode());
-        //System.out.println(" in jump inst : " + instr.getOpcode());
-
-        //System.out.println(" Jump: Op: " + op);
-
-        if(op.equals("00010010")) // HLT
+        String op = instr.getOpcode();
+        if(op.equals(InstructionSets.INSTRUCTION_SET_HLT)) // HLT
         {
             //display job information on completion
 
-            String waitTimeLabel = "Wait Time:";
-            String processLabel = "Process:";
-            String executionTimeLabel = "Execution Time:";
-            String instructionsLabel = "Instructions:";
-            String IOinstructionsLabel ="IO Instructions:";
-            String faultsLabel = "Faults:";
-
-
-
-            String waitTimeVal =  (MultiDispatch.getDispatch(runCPU).currentProc.getWaitTime() > 0) ?
-                    "" + (MultiDispatch.getDispatch(runCPU).currentProc.getWaitTime() - MultiDispatch.getDispatch(runCPU).currentProc.getExecTime()) :
+            String waitTimeVal =  (Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getWaitTime() > 0) ?
+                    "" + (Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getWaitTime() - Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getExecTime()) :
                     "0";
-            String processVal = ""+pid;
-            String executionTimeVal = "" + MultiDispatch.getDispatch(runCPU).currentProc.getExecTime();
-            String instructionsVal = "" + MultiDispatch.getDispatch(runCPU).currentProc.getProc_iCount();
-            String IOinstructionsVal ="" + MultiDispatch.getDispatch(runCPU).currentProc.getIOCount();
-            String faultsVal = ""+ MultiDispatch.getDispatch(runCPU).currentProc.getFaultCount();
+            String processVal = ""+mProcessorId;
+            String executionTimeVal = "" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getExecTime();
+            String instructionsVal = "" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getProc_iCount();
+            String IOinstructionsVal ="" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getIOCount();
+            String faultsVal = ""+ Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getFaultCount();
 
 
 
 
 
 
-            System.out.format("%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s",
-                                     processLabel,
-                                                    processVal+"\t",
-                                     waitTimeLabel+"\t",
-                                                    waitTimeVal+"\t",
-                                     executionTimeLabel,
-                                                    executionTimeVal+"\t",
-                                     instructionsLabel,
-                                                    instructionsVal+"\t",
-                                     IOinstructionsLabel,
-                                                    IOinstructionsVal+"\t",
-                                     faultsLabel,
-                                                    faultsVal+"\t");
-            System.out.print("\n----------------------------------------------------------------------------------------------------------------------------------------------\n");
+            System.out.format(Constants.Output_Table_Format,
+                    Constants.PROCESS_LABEL,
+                    processVal + "\t",
+                    Constants.WAIT_TIME_LABEL + "\t",
+                    waitTimeVal + "\t",
+                    Constants.EXECUTION_TIME_LABEL,
+                    executionTimeVal + "\t",
+                    Constants.INSTRUCTIONS_LABEL,
+                    instructionsVal + "\t",
+                    Constants.IO_INSTRUCTIONS_LABEL,
+                    IOinstructionsVal + "\t",
+                    Constants.FAULTS_LABEL,
+                    faultsVal + "\t");
+            System.out.print(Constants.EndLine);
 
 
-            MultiDispatch.getDispatch(runCPU).currentProc.setProcState(3);
-            MultiDispatch.getDispatch(runCPU).setTerminate();
-            busy = false;
-            reg = new int[16];
+            Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.setProcState(3);
+            Dispatch.getDispatch(mCPUBeingUsed).setTerminate();
+            mIsBusy = false;
+            mReg = new int[16];
         }
 
-        else if(op.equals("00010100"))
-            MultiDispatch.getDispatch(runCPU).set(address);
+        else if(op.equals(InstructionSets.INSTRUCTION_SET_JMP))
+            Dispatch.getDispatch(mCPUBeingUsed).set(address);
 
         else
         {
@@ -354,19 +304,19 @@ public class CPU
 
     public void setRegisters(int[] temp)
     {
-        reg = temp;
+        mReg = temp;
     }
 
 
 
     public void run(int instruct, int CPUNum)
     {
-        runCPU = CPUNum;
-        runInstr = instruct;
-        pid = MultiDispatch.getDispatch(runCPU).currentProc.getProc_id();
+        mCPUBeingUsed = CPUNum;
+        mRunInstruction = instruct;
+        mProcessorId = Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getProc_id();
         fetch();
-        if (PC != "page fault")
-            execute(PC);
+        if ( !mPageCode.equals(Constants.PAGE_FAULT) )
+            executeCode(mPageCode);
 
     }
     private String hexToBinary(char hexChar)
@@ -409,14 +359,14 @@ public class CPU
     }
     private void park(int type)
     {
-        PCB.getInstance().getJob(pid).setProcState(4);
+        PCB.getInstance().getJob(mProcessorId).setProcState(4);
         if (Driver.contextSwitch)
         {
             if (type == 0) //io interrupt
-                PCB.getInstance().getJob(pid).setNextInstruct(runInstr + 1);
+                PCB.getInstance().getJob(mProcessorId).setNextInstruct(mRunInstruction + 1);
             else if (type == 1) //pagefault
-                PCB.getInstance().getJob(pid).setNextInstruct(runInstr);
-            PCB.getInstance().getJob(pid).setRegisters(reg);
+                PCB.getInstance().getJob(mProcessorId).setNextInstruct(mRunInstruction);
+            PCB.getInstance().getJob(mProcessorId).setRegisters(mReg);
         }
     }
 
@@ -447,10 +397,7 @@ public class CPU
             return params;
         }
 
-
     }
-
-
 
 }
 
