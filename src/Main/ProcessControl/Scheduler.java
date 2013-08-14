@@ -17,13 +17,13 @@ public class Scheduler
     public enum Processors {SINGLE, MULTI};
     private static final Algorithm DEFAULT_ALGORITHM = Algorithm.FIFO;
     public static Processors DEFAULT_PROCESSORS = Processors.SINGLE;
-    private static final int NULL = 0;
-    private final Algorithm alg;
-    private Processors proc;
-    private Process theJob;
-    private int currentJob;
-    private static Scheduler sched;
-    private int num;
+
+
+    private final Algorithm mAlgorithm;
+    private Process mCurrentJob;
+    private int mCurrentJobId;
+    private static Scheduler mScheduler;
+    private int mNum;
 
 
     //constructer to build basic element
@@ -34,18 +34,17 @@ public class Scheduler
     }
     private Scheduler(Processors processors){
         DEFAULT_PROCESSORS = processors;
-        alg = DEFAULT_ALGORITHM;
-        proc = DEFAULT_PROCESSORS;
-        currentJob = 1;
+        mAlgorithm = DEFAULT_ALGORITHM;
+        mCurrentJobId = 1;
     }
     //implement a synchronized instance of the scheduler
     public static synchronized Scheduler getInstance()
     {
         //if it does not exist, create; return
-        if(sched == null)
-            sched = new Scheduler();
+        if(mScheduler == null)
+            mScheduler = new Scheduler();
 
-        return sched;
+        return mScheduler;
     }
 
     //LongTerm Scheduler
@@ -65,37 +64,37 @@ public class Scheduler
                 tempBuffCount = 0;
 
         //switch on algorithm for prioritization
-        switch(alg)
+        switch(mAlgorithm)
         {
             case FIFO:
             {
                 //is the scheduling done? if not...
-                theJob = PCB.getInstance().nextProcess();
-                if (!(theJob == null) && !(PCB.getInstance().isDone())){
+                mCurrentJob = PCB.getInstance().nextProcess();
+                if (!(mCurrentJob == null) && !(PCB.getInstance().isDone())){
                     //get the next process for the job and add it to the Ready Queue
 
                     //set the current job by retrieving from PCB
-                    currentJob = theJob.getProc_id();
+                    mCurrentJobId = mCurrentJob.getProc_id();
                     //get next available memory location
-                    num = RAM.getInstance().get_next_loc();
+                    mNum = RAM.getInstance().get_next_loc();
 
                     //create temp object for current job
-                    Process temp = PCB.getInstance().getJob(currentJob);
+                    Process temp = PCB.getInstance().getJob(mCurrentJobId);
 
                     //while there are still processes, keep moving to RAM
-                    boolean doWork = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
+                    boolean doWork = ((mNum + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
 
                     while (doWork)
                     {
                         //get the next job
-                        ReadyQueue.getInstance().addProcess(currentJob);
+                        ReadyQueue.getInstance().addProcess(mCurrentJobId);
                         //set the status of this job to ready for dispatch
-                        PCB.getInstance().getJob(currentJob).setProcState(1);
+                        PCB.getInstance().getJob(mCurrentJobId).setProcState(1);
                         //read job info (if we use direct calls this will slow the loop)
                         //currentDisk will hold the current position on the disk
-                        currentDisk = PCB.getInstance().getJob(currentJob).getProc_diskStart();
+                        currentDisk = PCB.getInstance().getJob(mCurrentJobId).getProc_diskStart();
                         //proc_start will hold the start location of the job on disk
-                        int proc_start = PCB.getInstance().getJob(currentJob).getProc_diskStart();
+                        int proc_start = PCB.getInstance().getJob(mCurrentJobId).getProc_diskStart();
                         //set the memstart to the first available RAM location
                         //and write the current disk value to that first location
 
@@ -104,11 +103,11 @@ public class Scheduler
                         //increment the counter since we wrote the first value
                         currentDisk++;
                         //set the memStart location in the PCB
-                        PCB.getInstance().getJob(currentJob).setProc_memStart(memStart);
-                        if (PCB.getInstance().getJob(currentJob).getNextInstruct() < 0)
-                            PCB.getInstance().getJob(currentJob).setNextInstruct(memStart);
+                        PCB.getInstance().getJob(mCurrentJobId).setProc_memStart(memStart);
+                        if (PCB.getInstance().getJob(mCurrentJobId).getNextInstruct() < 0)
+                            PCB.getInstance().getJob(mCurrentJobId).setNextInstruct(memStart);
                         //determine the length of the instructions
-                        programCount = PCB.getInstance().getJob(currentJob).getProc_iCount();
+                        programCount = PCB.getInstance().getJob(mCurrentJobId).getProc_iCount();
 
                         //loop through instruction and place in RAM
                         int instProcess = 0;
@@ -121,18 +120,18 @@ public class Scheduler
 
                         //now we read the data and write it (along with buffers)
                         //set start location on the disk for the data
-                        currentDisk = PCB.getInstance().getJob(currentJob).getData_diskStart();
+                        currentDisk = PCB.getInstance().getJob(mCurrentJobId).getData_diskStart();
 
-                        int data_start = PCB.getInstance().getJob(currentJob).getData_diskStart();
+                        int data_start = PCB.getInstance().getJob(mCurrentJobId).getData_diskStart();
                         //set memStart location in PCB for the data
-                        PCB.getInstance().getJob(currentJob).setData_memStart(memStart + programCount);
+                        PCB.getInstance().getJob(mCurrentJobId).setData_memStart(memStart + programCount);
                         //read data and buffer info (to avoid delay from lookup each loop)
-                        dataCount = PCB.getInstance().getJob(currentJob).getData_count();
+                        dataCount = PCB.getInstance().getJob(mCurrentJobId).getData_count();
 
                         //inBuffCount = PCB.getInstance().getJob(currentJob).getInputBuffer();
                         //outBuffCount = PCB.getInstance().getJob(currentJob).getOutputBuffer();
 
-                        tempBuffCount = PCB.getInstance().getJob(currentJob).getTempBuffer();
+                        tempBuffCount = PCB.getInstance().getJob(mCurrentJobId).getTempBuffer();
 
                         //loop through to read from disk and write data to RAM + buffers
                         // all of which appear in the data file (** in hex sizes ** )
@@ -153,11 +152,11 @@ public class Scheduler
                         }
                         //if we are done, stop; else get next information
 
-                        theJob = PCB.getInstance().nextProcess();
-                        if(!(theJob == null) && !(PCB.getInstance().isDone())){
-                            currentJob = theJob.getProc_id();
-                            num = RAM.getInstance().get_next_loc();
-                            doWork = ((num + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
+                        mCurrentJob = PCB.getInstance().nextProcess();
+                        if(!(mCurrentJob == null) && !(PCB.getInstance().isDone())){
+                            mCurrentJobId = mCurrentJob.getProc_id();
+                            mNum = RAM.getInstance().get_next_loc();
+                            doWork = ((mNum + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
 //
                         }else
                             break;

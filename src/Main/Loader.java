@@ -9,27 +9,28 @@ package Main;
 import java.io.*;
 
 //import HardDrive.HardDrive;
-import Main.Constants.Constants;
+import Main.ConfigFiles.Constants;
+import Main.Log.ErrorLog;
 import Main.Memory.HardDrive;
 import Main.ProcessControl.PCB;
 
 public class Loader
 {
-    private static Loader loader;
-    private int jobNum;
-    private int job_loc;
-    private int currentType;
-    private int count;
+    private static Loader mLoader;
+    private int mJobNum;
+    private int mJobLocation;
+    private int mCurrentType;
+    private int mCount;
 
     public static synchronized Loader getInstance(){
-        if(loader == null) loader = new Loader();
-        return loader;
+        if(mLoader == null) mLoader = new Loader();
+        return mLoader;
     }
 
     private Loader()
     {
-        currentType = -1;
-        job_loc = -999;
+        mCurrentType = -1;
+        mJobLocation = -999;
 
         try
         {
@@ -40,32 +41,35 @@ public class Loader
             while(in != null)
             {
                 if(in.contains(Constants.LOADER_JOB)){
-                    jobNum = PCB.getInstance().addJob(in);
-                    currentType = 0;
-                    //System.out.println("LOADER :: JOB > "+in);
+                    mJobNum = PCB.getInstance().addJob(in);
+                    mCurrentType = 0;
                 }else if(in.contains(Constants.LOADER_DATA)){
-                    PCB.getInstance().addData(in, jobNum);
-                    //System.out.println("LOADER :: DATA > "+in);
-                    currentType = 1;
-                    count = 0;
+                    PCB.getInstance().addData(in, mJobNum);
+                    mCurrentType = 1;
+                    mCount = 0;
 
                 }else if(in.contains(Constants.LOADER_END)){
-                    PCB.getInstance().getJob(jobNum).setData_size(count);
-                    //System.out.println("LOADER :: END > "+in);
-                    jobNum = -1;
+                    PCB.getInstance().getJob(mJobNum).setData_size(mCount);
+                    mJobNum = -1;
                 }else{
-                    job_loc = HardDrive.getInstance().add(in.substring(2, in.length()));
-                    if(currentType == 0){
-                        //System.out.println("LOADER :: FIRST JOB > "+in);
-                        PCB.getInstance().getJob(jobNum).setProc_diskStart(job_loc);
-                        currentType = -1;
-                    }else if(currentType == 1){
-                        //System.out.println("LOADER :: FIRST DATA > "+in);
-                        PCB.getInstance().getJob(jobNum).setData_diskStart(job_loc);
-                        currentType = -1;
+                    mJobLocation = HardDrive.getInstance().add(in.substring(2, in.length()));
+
+                    switch(mCurrentType)
+                    {
+                        case 0:
+                            PCB.getInstance().getJob(mJobNum).setProc_diskStart(mJobLocation);
+                            mCurrentType = -1;
+                            break;
+                        case 1:
+                            PCB.getInstance().getJob(mJobNum).setData_diskStart(mJobLocation);
+                            mCurrentType = -1;
+                            break;
+                        default:
+                            break;
                     }
 
-                    count++;
+
+                    mCount++;
                 }
 
                 in = br.readLine();
@@ -76,8 +80,14 @@ public class Loader
 
             System.out.println("");
             System.out.println("LOADER :: > Finished Loading successfully");
+
+
+
         }catch(IOException io){
-            io.printStackTrace();
+
+            ErrorLog.getInstance().writeError("IO Exception in Loader class");
+
+
         }
 
     }

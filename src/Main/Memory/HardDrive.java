@@ -13,6 +13,7 @@ package Main.Memory;
 
 import Main.Driver;
 import Main.Log.ErrorLog;
+import static Main.ConfigFiles.Config.*;
 
 //class def
 public class HardDrive
@@ -27,7 +28,7 @@ public class HardDrive
     //constructor
     private HardDrive()
     {
-        mHardDrive = new String[Driver.hardDriveSpace];
+        mHardDrive = new String[HARD_DRIVE_SPAVE];
         mNextLocation = 0;
     }
 
@@ -55,7 +56,7 @@ public class HardDrive
             mNextLocation++;
 
             //end of drive space? Set flag
-            if(mNextLocation == Driver.hardDriveSpace)
+            if(mNextLocation == HARD_DRIVE_SPAVE)
             {
                 mNextLocation = -1;
             }

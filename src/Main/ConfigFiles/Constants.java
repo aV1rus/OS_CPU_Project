@@ -1,4 +1,4 @@
-package Main.Constants;
+package Main.ConfigFiles;
 
 /**
  * Created with IntelliJ IDEA.

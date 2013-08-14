@@ -5,10 +5,12 @@ package Main.ControlUnit;
  * User: Nick Maiello (aV1rus)
  * Date: 7/4/13
  * Time: 11:59 AM
- * To change this template use File | Settings | File Templates.
+ *
+ *
  */
 import Main.Driver;
 import Main.ProcessControl.*;
+import static Main.ConfigFiles.Config.*;
 
 public class Dispatcher
 {
@@ -36,7 +38,7 @@ public class Dispatcher
 
     public int get()
     {
-        if (Driver.contextSwitch && (Dispatch.getDispatch(mRunCPU).mCurrentProc.getProcState() == 4))
+        if (CONTEXT_SWITCH && (Dispatch.getDispatch(mRunCPU).mCurrentProc.getProcState() == 4))
         {
             WaitQueue.addItem(Dispatch.getDispatch(mRunCPU).mCurrentProc.getProc_id(), Dispatch.getDispatch(mRunCPU).mCurrentProc.getWaitType());
             return -1;

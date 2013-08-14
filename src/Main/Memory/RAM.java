@@ -9,6 +9,7 @@ package Main.Memory;
  */
 import Main.Driver;
 import Main.Log.ErrorLog;
+import static Main.ConfigFiles.Config.*;
 
 public class RAM
 {
@@ -18,7 +19,7 @@ public class RAM
 
     private RAM()
     {
-        mRamArray = new String[Driver.amtOfRAM];
+        mRamArray = new String[RAM_SIZE];
         mNextLocation = 0;
     }
 
@@ -32,9 +33,9 @@ public class RAM
 
     public String read(int loc)
     {
-        if(loc >= 0 && loc < Driver.amtOfRAM)
+        if(loc >= 0 && loc < RAM_SIZE)
         {
-            if (!Driver.contextSwitch)
+            if (!CONTEXT_SWITCH)
                 return mRamArray[loc];
             else
             {
@@ -53,7 +54,7 @@ public class RAM
     public String DMAread(int loc)
     {
 
-        if(loc >= 0 && loc < Driver.amtOfRAM)
+        if(loc >= 0 && loc < RAM_SIZE)
         {
             return mRamArray[loc];
         }
@@ -68,13 +69,13 @@ public class RAM
     {
         if( data != null)
         {
-            if (Driver.contextSwitch)
+            if (CONTEXT_SWITCH)
             {
                 MemManager.write(data, (loc / 4), (loc % 4));
             }
             else
             {
-                if(loc >= 0 && loc < Driver.amtOfRAM)
+                if(loc >= 0 && loc < RAM_SIZE)
                 {
                     mRamArray[loc] = data;
                 }
@@ -96,7 +97,7 @@ public class RAM
     public void DMAwrite(String data, int loc)
     {
         if( data != null){
-            if(loc >= 0 && loc < Driver.amtOfRAM){
+            if(loc >= 0 && loc < RAM_SIZE){
                 mRamArray[loc] = data;
             }else{
                 ErrorLog.getInstance().writeError("RAM::write_loc || >> Invalid parameter given.");
@@ -116,7 +117,7 @@ public class RAM
         int returnLoc = -1;
 
         if(data != null){
-            if(mNextLocation >= 0 && mNextLocation < Driver.amtOfRAM){
+            if(mNextLocation >= 0 && mNextLocation < RAM_SIZE){
                 mRamArray[mNextLocation] = data;
                 returnLoc = mNextLocation;
                 mNextLocation++;
@@ -135,7 +136,7 @@ public class RAM
 
     public void resetRAM()
     {
-        for (int i = 0;i < Driver.amtOfRAM; i++)
+        for (int i = 0;i < RAM_SIZE; i++)
             mRamArray[i] = "";
         mNextLocation=0;
     }
@@ -159,7 +160,7 @@ public class RAM
 
     public int sizeOfRam()
     {
-        return Driver.amtOfRAM;
+        return RAM_SIZE;
     }
 
     public String toString()

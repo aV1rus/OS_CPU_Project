@@ -7,14 +7,16 @@ package Main.ControlUnit;
  * Time: 11:59 AM
  * To change this template use File | Settings | File Templates.
  */
-import Main.Constants.Constants;
-import Main.Constants.InstructionFormats;
-import Main.Constants.InstructionSets;
+import Main.ConfigFiles.Constants;
+import Main.ConfigFiles.InstructionFormats;
+import Main.ConfigFiles.InstructionSets;
 import Main.Driver;
 import Main.Log.ErrorLog;
 import Main.Memory.RAM;
 
 import Main.ProcessControl.PCB;
+
+import static Main.ConfigFiles.Config.*;
 
 public class CPU
 {
@@ -360,7 +362,7 @@ public class CPU
     private void park(int type)
     {
         PCB.getInstance().getJob(mProcessorId).setProcState(4);
-        if (Driver.contextSwitch)
+        if (CONTEXT_SWITCH)
         {
             if (type == 0) //io interrupt
                 PCB.getInstance().getJob(mProcessorId).setNextInstruct(mRunInstruction + 1);

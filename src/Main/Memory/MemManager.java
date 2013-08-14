@@ -8,7 +8,7 @@ package Main.Memory;
  *
  *
  */
-import Main.Constants.Constants;
+import Main.ConfigFiles.Constants;
 import Main.ProcessControl.PCB;
 import Main.ProcessControl.ReadyQueue;
 

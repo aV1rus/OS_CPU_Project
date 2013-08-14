@@ -15,7 +15,7 @@ import java.util.Iterator;
 public class WaitQueue {
 
 
-    private static Vector<waitJob>  waitQ = new Vector<waitJob>();
+    private static Vector<waitJob>  mQueue = new Vector<waitJob>();
 
 
     public WaitQueue(){
@@ -24,7 +24,7 @@ public class WaitQueue {
 
     public static void addItem(int addPID, int io){
         waitJob temp = new waitJob();
-        Iterator<waitJob> index = waitQ.iterator();
+        Iterator<waitJob> index = mQueue.iterator();
         boolean added = false;
 
         temp.jobID = addPID;
@@ -38,20 +38,20 @@ public class WaitQueue {
             temp.waitTime = 0;
 
 
-        if (waitQ.isEmpty()){
-            waitQ.add(temp);
+        if (mQueue.isEmpty()){
+            mQueue.add(temp);
         }else{
 
-            for (int i = 0; i < (waitQ.size() -1); i++){
-                if (temp.waitTime < waitQ.elementAt(i).waitTime ){
-                    waitQ.insertElementAt(temp, waitQ.indexOf(index));
+            for (int i = 0; i < (mQueue.size() -1); i++){
+                if (temp.waitTime < mQueue.elementAt(i).waitTime ){
+                    mQueue.insertElementAt(temp, mQueue.indexOf(index));
 
                     added = true;
                 }
             }
 
             if (!added){
-                waitQ.add(temp);
+                mQueue.add(temp);
             }
 
 
@@ -62,14 +62,14 @@ public class WaitQueue {
     public static Integer getItem(){
         int temp = -1;
 
-        Iterator iter = waitQ.iterator();
+        Iterator iter = mQueue.iterator();
 
-        if (!waitQ.isEmpty())
+        if (!mQueue.isEmpty())
         {
             while(iter.hasNext() && temp < 0)
-                if (waitQ.get(waitQ.indexOf(iter.next())).waitTime < 0)
+                if (mQueue.get(mQueue.indexOf(iter.next())).waitTime < 0)
                 {
-                    temp = waitQ.remove(0).jobID;
+                    temp = mQueue.remove(0).jobID;
                 }
         }
 
@@ -84,7 +84,7 @@ public class WaitQueue {
 
     public static void countDown()
     {
-        Iterator<waitJob> iter = waitQ.iterator();
+        Iterator<waitJob> iter = mQueue.iterator();
         waitJob temp = new waitJob();
 
 
@@ -98,7 +98,7 @@ public class WaitQueue {
 
     public static boolean isEmpty()
     {
-        return (waitQ.isEmpty());
+        return (mQueue.isEmpty());
     }
 
 

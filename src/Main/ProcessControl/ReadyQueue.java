@@ -10,33 +10,34 @@ import java.util.*;
 
 import Main.Driver;
 import Main.Log.ErrorLog;
+import static Main.ConfigFiles.Config.*;
 
 public class ReadyQueue
 {
-    private static ReadyQueue readyQueue;
-    private static LinkedList<Integer> processIDs;
-    private int iterator;
+    private static ReadyQueue mReadyQueue;
+    private static LinkedList<Integer> mProcessIDs;
+    private int mIterator;
 
-    private int rqCounter;
+    private int mCounter;
 
     private ReadyQueue(){
-        processIDs = new LinkedList<Integer>();
-        iterator = 0;
+        mProcessIDs = new LinkedList<Integer>();
+        mIterator = 0;
     }
 
     public static synchronized ReadyQueue getInstance(){
-        if(readyQueue == null)
+        if(mReadyQueue == null)
         {
-            readyQueue = new ReadyQueue();
+            mReadyQueue = new ReadyQueue();
         }
 
-        return readyQueue;
+        return mReadyQueue;
     }
 
     public int addProcess(int id){
         if(id > 0)
         {
-            if(processIDs.add(id)){
+            if(mProcessIDs.add(id)){
                 return 0;
             }else{
                 ErrorLog.getInstance().writeError("ReadyQueue >> Error adding Process ID");
@@ -50,10 +51,10 @@ public class ReadyQueue
 
     public int getProcesses(){
         int getPID;
-        if(iterator < processIDs.size()){
+        if(mIterator < mProcessIDs.size()){
             try{
-                getPID = processIDs.get(iterator);
-                iterator++;
+                getPID = mProcessIDs.get(mIterator);
+                mIterator++;
             }catch(java.util.NoSuchElementException e){
                 ErrorLog.getInstance().writeError("ReadyQueue Error: " + e.toString());
                 return -1;
@@ -66,14 +67,14 @@ public class ReadyQueue
     }
 
     public boolean hasJobsInQueue(){
-        if (iterator < processIDs.size())
+        if (mIterator < mProcessIDs.size())
             return true;
         else
             return false;
     }
 
     public int getSize(){
-        return processIDs.size();
+        return mProcessIDs.size();
     }
 
 //    public void resetReadyQueue(){
@@ -84,31 +85,31 @@ public class ReadyQueue
 
     public void prioritize(){
         int [][] temp;
-        temp = new int [processIDs.size()+1][2];
+        temp = new int [mProcessIDs.size()+1][2];
 
-        int lastRQ = processIDs.size();
+        int lastRQ = mProcessIDs.size();
 
-        switch(Driver.sort)
+        switch(SORT_TYPE)
         {
             case 1: //priority
             {
                 //intialize temporary holder for job list
-                for (int i = rqCounter; i <= lastRQ; i++)
+                for (int i = mCounter; i <= lastRQ; i++)
                 {
                     temp[i][0] = 0;
                     temp[i][1] = 0;
                 }
 
                 //retrieve the last items from the RQ to be sorted (jobs not assigned)
-                for (int i = rqCounter; i < lastRQ; i++)
+                for (int i = mCounter; i < lastRQ; i++)
                 {
-                    temp[i][0] = processIDs.pollLast();
+                    temp[i][0] = mProcessIDs.pollLast();
                     temp[i][1] = PCB.getInstance().getJob(temp[i][0]).getJobPriority();
                 }
 
                 //bubble sort based on job priority
-                for (int i = rqCounter; i < (temp.length - 1); i++)
-                    for (int j = rqCounter; j < (temp.length - 1); j++)
+                for (int i = mCounter; i < (temp.length - 1); i++)
+                    for (int j = mCounter; j < (temp.length - 1); j++)
                     {
                         if (temp[i][1] > temp[j][1])
                         {
@@ -121,35 +122,35 @@ public class ReadyQueue
                         }
                     }
                 //put the jobs back in the ReadyQueue in sorted order
-                for (int i = rqCounter; i < (temp.length -1); i++)
+                for (int i = mCounter; i < (temp.length -1); i++)
                 {
                     ReadyQueue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job
-                rqCounter = lastRQ;
+                mCounter = lastRQ;
 
             }//case Priority
 
             case 2:  // SJF
             {
                 //intialize temporary holder for job list
-                for (int i = rqCounter; i <= lastRQ; i++)
+                for (int i = mCounter; i <= lastRQ; i++)
                 {
                     temp[i][0] = 0;
                     temp[i][1] = 0;
                 }
 
                 //retrieve the last items from the RQ to be sorted (jobs not assigned)
-                for (int i = rqCounter; i < lastRQ; i++)
+                for (int i = mCounter; i < lastRQ; i++)
                 {
-                    temp[i][0] = processIDs.pollLast();
+                    temp[i][0] = mProcessIDs.pollLast();
                     temp[i][1] = PCB.getInstance().getJob(temp[i][0]).getProc_iCount();
                 }
 
                 //bubble sort based on instruction count
-                for (int i = rqCounter; i < (temp.length - 1); i++)
-                    for (int j = rqCounter; j < (temp.length - 1); j++)
+                for (int i = mCounter; i < (temp.length - 1); i++)
+                    for (int j = mCounter; j < (temp.length - 1); j++)
                     {
                         if (temp[i][1] > temp[j][1])
                         {
@@ -162,13 +163,13 @@ public class ReadyQueue
                         }
                     }
                 //put the jobs back in the ReadyQueue in sorted order
-                for (int i = rqCounter; i < (temp.length -1); i++)
+                for (int i = mCounter; i < (temp.length -1); i++)
                 {
                     ReadyQueue.getInstance().addProcess(temp[i][0]);
                 }
 
                 //mark the last sorted job
-                rqCounter = lastRQ;
+                mCounter = lastRQ;
 
             }//case SJF
 
@@ -187,9 +188,9 @@ public class ReadyQueue
     {
         String temp = "Ready Queue List: ";
 
-        for(int i = 0; i < processIDs.size(); i++)
+        for(int i = 0; i < mProcessIDs.size(); i++)
         {
-            temp += "\n" + processIDs.get(i);
+            temp += "\n" + mProcessIDs.get(i);
         }
 
         return temp;

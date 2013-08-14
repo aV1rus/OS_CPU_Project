@@ -8,7 +8,7 @@ import Main.ProcessControl.PCB;
 import Main.ProcessControl.ReadyQueue;
 import Main.ProcessControl.Scheduler;
 import Main.ProcessControl.WaitQueue;
-
+import static Main.ConfigFiles.Config.*;
 /**
  * Created with IntelliJ IDEA.
  * User: Nick Maiello (aV1rus)
@@ -18,20 +18,10 @@ import Main.ProcessControl.WaitQueue;
 
 public class Driver
 {
-    // 0=FCFS, 1=Job Priority, 2=SJF
-    public static final int sort = 1;
-    // choose 1, 4, 8, 32 or other
-    public static int numOfProcessors = 4;
-    // RAM divided by 4 (256 entered here = 1024 RAM)
-    public static int amtOfRAM = 1024;
-    public static final int hardDriveSpace = 2048;
-    public static final boolean contextSwitch = true;
 
 
     public static void main(String [] args)
     {
-        amtOfRAM = 2048;
-        numOfProcessors = 8;
 
         HardDrive hardDrive = HardDrive.getInstance();
         PCB pcb = PCB.getInstance();
@@ -43,8 +33,8 @@ public class Driver
         MemManager memMas= new MemManager();
 
         CPU[] CPUCore;
-        CPUCore = new CPU[numOfProcessors];
-        for (int i = 0; i < numOfProcessors; i++)
+        CPUCore = new CPU[NUM_OF_PROCESSOR];
+        for (int i = 0; i < NUM_OF_PROCESSOR; i++)
             CPUCore[i] = new CPU();
 
         int nextJob = 0;
@@ -60,16 +50,16 @@ public class Driver
 
 
                 boolean firstRun = true;
-                while((firstRun) || (nextJob >= 0) || (notBusyCount < numOfProcessors) || (!WaitQueue.isEmpty())){
+                while((firstRun) || (nextJob >= 0) || (notBusyCount < NUM_OF_PROCESSOR) || (!WaitQueue.isEmpty())){
                     firstRun=false;
 
 
                     // Check each Processor
 
-                    for (int i = 0; i < numOfProcessors; i++){
+                    for (int i = 0; i < NUM_OF_PROCESSOR; i++){
 
                         if (!CPUCore[i].getIsBusy()){        //IF Processor CORE is not busy
-                            if (contextSwitch){
+                            if (CONTEXT_SWITCH){
                                 waitQVal = WaitQueue.getItem();
                                 if (waitQVal < 1){
                                     nextJob = scheduler.shortTerm();
@@ -100,7 +90,7 @@ public class Driver
                                 CPUCore[i].setIsBusy(false);
                         }
                         notBusyCount = 0;
-                        for (int j = 0; j < numOfProcessors; j++)
+                        for (int j = 0; j < NUM_OF_PROCESSOR; j++)
                         {
                             if (!CPUCore[j].getIsBusy())
                                 notBusyCount++;
