@@ -25,9 +25,10 @@ public class Constants {
 
     public static final String PAGE_FAULT = "page fault";
 
-    public static final String Output_Table_Format = "%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s";
-    public static final String EndLine = "\n----------------------------------------------------------------------------------------------------------------------------------------------\n";
-
+//    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s";
+    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%5s%5s%5s%5s%5s";
+    public static final String TABLE_LINE_BREAK = "\n";//"\n----------------------------------------------------------------------------------------------------------------------------------------------\n";
+    public static final String  AVERAGE_TITLE = "AVERAGE";
 
 
 

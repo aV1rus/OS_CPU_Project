@@ -175,18 +175,18 @@ public class MemManager
             mFrameTable[mCurrentProcess].buffer[mCurrentBuffer].value[i] = RAM.getInstance().DMAread(loc + (page * 4)+ i);
         }
     }
-
-    public static void out()
-    {
-        String returnValue = "";
-
-        for (int i = mStartProcess; i < mProcessesServed; i++)
-            for (int j = 0; j < 5; j++ )
-                for (int k = 0; k < 4; k++)
-                    returnValue+=("FrameTable: Proc " + i + " : Buff " + j + " : frame " + k + " = " + mFrameTable[i].buffer[j].value[k] + "\n");
-
-        System.out.println(returnValue);
-    }
+//
+//    public static void out()
+//    {
+//        String returnValue = "";
+//
+//        for (int i = mStartProcess; i < mProcessesServed; i++)
+//            for (int j = 0; j < 5; j++ )
+//                for (int k = 0; k < 4; k++)
+//                    returnValue+=("FrameTable: Proc " + i + " : Buff " + j + " : frame " + k + " = " + mFrameTable[i].buffer[j].value[k] + "\n");
+//
+//        System.out.println(returnValue);
+//    }
 
     private static class frame
     {

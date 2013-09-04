@@ -71,11 +71,14 @@ public class CPU
     public void moveToNext()
     {
         PCB.getInstance().getJob(mProcessorId).setExecTime(1);
+
         for (int i = PCB.getInstance().getJob(mProcessorId).getProc_id(); i < (PCB.getInstance().lastJob() + 1); i++)
         {
+//            if(PCB.getInstance().getJob(i).getProc_id() == 8 && (PCB.getInstance().getJob(i).getProcState()) < 2) System.out.println("Checking state");
             if((PCB.getInstance().getJob(i).getProcState()) < 2)
                 PCB.getInstance().getJob(i).setWaitTime(1);
         }
+
     }
 
     // accepts an instruction in hex format, decodes it into binary,
@@ -256,36 +259,10 @@ public class CPU
         String op = instr.getOpcode();
         if(op.equals(InstructionSets.INSTRUCTION_SET_HLT)) // HLT
         {
-            //display job information on completion
-
-            String waitTimeVal =  (Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getWaitTime() > 0) ?
-                    "" + (Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getWaitTime() - Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getExecTime()) :
-                    "0";
-            String processVal = ""+mProcessorId;
-            String executionTimeVal = "" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getExecTime();
-            String instructionsVal = "" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getProc_iCount();
-            String IOinstructionsVal ="" + Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getIOCount();
-            String faultsVal = ""+ Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.getFaultCount();
+            //JOB IS DONE - PRINT DAitTimeVal =  ""+
 
 
-
-
-
-
-            System.out.format(Constants.Output_Table_Format,
-                    Constants.PROCESS_LABEL,
-                    processVal + "\t",
-                    Constants.WAIT_TIME_LABEL + "\t",
-                    waitTimeVal + "\t",
-                    Constants.EXECUTION_TIME_LABEL,
-                    executionTimeVal + "\t",
-                    Constants.INSTRUCTIONS_LABEL,
-                    instructionsVal + "\t",
-                    Constants.IO_INSTRUCTIONS_LABEL,
-                    IOinstructionsVal + "\t",
-                    Constants.FAULTS_LABEL,
-                    faultsVal + "\t");
-            System.out.print(Constants.EndLine);
+            Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.printCurrentData();
 
 
             Dispatch.getDispatch(mCPUBeingUsed).mCurrentProc.setProcState(3);

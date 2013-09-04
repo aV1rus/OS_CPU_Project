@@ -28,7 +28,7 @@ public class HardDrive
     //constructor
     private HardDrive()
     {
-        mHardDrive = new String[HARD_DRIVE_SPAVE];
+        mHardDrive = new String[HARD_DRIVE_SPACE];
         mNextLocation = 0;
     }
 
@@ -56,7 +56,7 @@ public class HardDrive
             mNextLocation++;
 
             //end of drive space? Set flag
-            if(mNextLocation == HARD_DRIVE_SPAVE)
+            if(mNextLocation == HARD_DRIVE_SPACE)
             {
                 mNextLocation = -1;
             }

@@ -10,12 +10,14 @@ package Main.ProcessControl;
  * This object will be utilized by the PCB (Program Control Block) to hold vital information
  * that will be used to determine efficiency and other metrics for later validation.
  */
+import Main.ConfigFiles.Constants;
 import Main.Log.ErrorLog;
 import Main.Memory.RAM;
 
 
 public class Process
 {
+
     private int mProcessId;
     private int mProcessDiskStart;      //Instruction Disk locations & length
     private int mProcessMemoryStart;    //Instruction Memory locations & length
@@ -28,13 +30,16 @@ public class Process
     private int mInputBufferWC;           //Number of words in each buffer.
     private int mOutputBufferWC;
     private int mTempBufferWC;
-    private int mProcessorState;
+    private int mProcessorState;         //More efficient to store as int NOT enum for greater than comparison by steps
     private int mNextInstruction;
     private int mWaitType;               // 0 = none, 1 = IO, 2 = pageFault
     private int mIOInstructCount;
     private int mWaitTime;
     private int mExecutionTime;
     private int mFaultCount;
+
+    private double mStartTime;
+    private double mExecutionStartTime;
 
     public final static int DEFAULT_PROCESS = 0;
     private static final int mRegisterSize = 16;
@@ -54,6 +59,8 @@ public class Process
      */
     public Process()
     {
+        mStartTime = System.currentTimeMillis();
+        mExecutionStartTime = 0;
         mProcessId = 0;
         mProcessDiskStart = -1;
         mProcessMemoryStart = -1;
@@ -158,6 +165,15 @@ public class Process
     {
         return mWaitTime;
     }
+    public double getStartTime()
+    {
+         return mStartTime;
+    }
+
+    public double getExecutionStartTime()
+    {
+        return mExecutionStartTime;
+    }
 
     public int getIOCount()
     {
@@ -183,6 +199,31 @@ public class Process
     {
         return mFaultCount;
     }
+    public void printCurrentData()
+    {
+        String waitTimeVal =  ""+getWaitTime();
+        String processVal = ""+getProc_id();
+        String executionTimeVal = "" + getExecTime();
+        String instructionsVal = "" + getProc_iCount();
+        String IOinstructionsVal ="" + getIOCount();
+        String faultsVal = ""+ getFaultCount();
+
+
+        System.out.format(Constants.OUTPUT_TABLE_FORMAT,
+                Constants.PROCESS_LABEL + "\t",
+                processVal + "\t",
+//                Constants.WAIT_TIME_LABEL + "\t",
+                waitTimeVal + "\t",
+//                Constants.EXECUTION_TIME_LABEL + "\t",
+                executionTimeVal + "\t",
+//                Constants.INSTRUCTIONS_LABEL + "\t",
+                instructionsVal + "\t",
+//                Constants.IO_INSTRUCTIONS_LABEL + "\t",
+                IOinstructionsVal + "\t",
+//                Constants.FAULTS_LABEL + "\t",
+                faultsVal + "\t");
+        System.out.print(Constants.TABLE_LINE_BREAK);
+    }
 
     public void getFinalData()
     {
@@ -202,25 +243,29 @@ public class Process
             totalIO+=PCB.getInstance().getJob(i).getIOCount();
             totalFault+=PCB.getInstance().getJob(i).getFaultCount();
         }
-        System.out.format("%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s",
-                "- - - - -",
-                "",
-                "AVERAGE:", (totalWait / totalProcs),
-                "",
-                ""+(totalExecute / totalProcs),
-                "",
-                ""+(totalInstructions / totalProcs),
-                "",
-                ""+(totalIO / totalProcs),
-                "",
-                ""+(totalFault / totalProcs));
+        System.out.format(Constants.OUTPUT_TABLE_FORMAT,
+                Constants.AVERAGE_TITLE + "\t",
+                "\t",
+//                "\t",//Constants.WAIT_TIME_LABEL + "\t",
+                (totalWait / totalProcs) + "\t",
+//                "\t",//Constants.EXECUTION_TIME_LABEL+ "\t",
+                (totalExecute / totalProcs) + "\t",
+//                "\t",//Constants.INSTRUCTIONS_LABEL + "\t",
+                (totalInstructions / totalProcs) + "\t",
+//                "\t",//Constants.IO_INSTRUCTIONS_LABEL + "\t",
+                (totalIO / totalProcs) + "\t",
+//                "\t",//Constants.FAULTS_LABEL + "\t",
+                (totalFault / totalProcs) + "\t");
 
     }
+
+    //SETTERS
 
     public void setFaultCount()
     {
         mFaultCount++;
     }
+
 
     public void setPageTable(int table, int value)
     {
@@ -357,9 +402,13 @@ public class Process
 
     public void setProcState(int state)
     {
-        if(0 <= state && state <= 5)
+        if(0 <= state && state <= 5){
+            if(state >=1 && mExecutionStartTime == 0) mExecutionStartTime = System.currentTimeMillis();
+
             mProcessorState = state;
-        else{
+
+
+        }else{
             ErrorLog.getInstance().writeError("ProcessData.setProcState(int) >> Invalid. 0 <= X <= 4");
             throw new IllegalArgumentException();
         }
@@ -372,10 +421,9 @@ public class Process
 
     public void setWaitTime(int waitcost)
     {
-        if (waitcost == 0)
-            mWaitTime = 0;
-        else
-            mWaitTime += waitcost;
+        mWaitTime += waitcost;
+//        if(getProc_id() == 8)
+//        System.out.println("Setting wait time for"+getProc_id()+"\n Time is: "+mWaitTime);
     }
 
     public void setIOCount(int ioCost)

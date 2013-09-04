@@ -128,19 +128,13 @@ public class Scheduler
                         //read data and buffer info (to avoid delay from lookup each loop)
                         dataCount = PCB.getInstance().getJob(mCurrentJobId).getData_count();
 
-                        //inBuffCount = PCB.getInstance().getJob(currentJob).getInputBuffer();
-                        //outBuffCount = PCB.getInstance().getJob(currentJob).getOutputBuffer();
-
                         tempBuffCount = PCB.getInstance().getJob(mCurrentJobId).getTempBuffer();
 
                         //loop through to read from disk and write data to RAM + buffers
                         // all of which appear in the data file (** in hex sizes ** )
-                        //while (currentDisk < (data_start + dataCount + inBuffCount + outBuffCount))
-                        int memLocations = 0;
-                        memLocations = dataCount - tempBuffCount;
+                        int memLocations = dataCount - tempBuffCount;
                         //write the instructions to RAM
                         while (memLocations > 0){
-                            //System.out.println("memLoc: " + memLocations);
                             RAM.getInstance().write_next(HardDrive.getInstance().getLoc(currentDisk));
                             currentDisk++;
                             memLocations--;
@@ -157,7 +151,6 @@ public class Scheduler
                             mCurrentJobId = mCurrentJob.getProc_id();
                             mNum = RAM.getInstance().get_next_loc();
                             doWork = ((mNum + temp.getProgInstructCount() + temp.getData_count() + temp.getInputBuffer() + temp.getOutputBuffer() + temp.getTempBuffer()) < RAM.getInstance().sizeOfRam());
-//
                         }else
                             break;
                     }

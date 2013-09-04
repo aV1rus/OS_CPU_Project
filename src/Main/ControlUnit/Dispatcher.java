@@ -8,13 +8,13 @@ package Main.ControlUnit;
  *
  *
  */
-import Main.Driver;
+import Main.ProcessControl.Process;
 import Main.ProcessControl.*;
 import static Main.ConfigFiles.Config.*;
 
 public class Dispatcher
 {
-    protected Main.ProcessControl.Process mCurrentProc;
+    protected Process mCurrentProc;
     private int mCurrentInstr;
     private boolean mTerm;
 

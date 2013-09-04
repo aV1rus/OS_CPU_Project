@@ -35,7 +35,10 @@ public class PCB
         return mPCB;
     }
 
-
+    public int getNumOfProcesses()
+    {
+        return mProcesses.size();
+    }
     /**
      * getJob
      * @param jobNum
@@ -121,6 +124,16 @@ public class PCB
             throw new IllegalArgumentException();
         }
     }
+
+    public void incrementWaitTime()
+    {
+        for (int i = 0; i < getPCBArray().size(); i++)
+        {
+            if((getJob(getPCBArray().get(i).getProc_id()).getProcState()) < 2)
+                getJob(getPCBArray().get(i).getProc_id()).setWaitTime(1);
+        }
+    }
+
 
     /***
      * addData

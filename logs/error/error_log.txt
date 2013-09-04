@@ -13,3 +13,5 @@ CPU::arithReg() || >> Invalid instruction -- Mon Aug 12 17:28:33 EDT 2013
 CPU::jump() || >> Invalid instruction -- Mon Aug 12 17:34:37 EDT 2013
 CPU::inputOutput() || >> Invalid instruction -- Mon Aug 12 17:46:19 EDT 2013
 CPU::inputOutput() || >> Invalid instruction -- Mon Aug 12 17:47:24 EDT 2013
+PCB :: getJob >> No job for index -- Mon Aug 26 12:36:56 EDT 2013
+PCB :: getJob >> No job for index -- Mon Aug 26 12:39:21 EDT 2013
