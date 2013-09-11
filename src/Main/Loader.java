@@ -14,6 +14,8 @@ import Main.Log.ErrorLog;
 import Main.Memory.HardDrive;
 import Main.ProcessControl.PCB;
 
+import static Main.ConfigFiles.Config.DATASHEET_FILE;
+
 public class Loader
 {
     private static Loader mLoader;
@@ -34,7 +36,7 @@ public class Loader
 
         try
         {
-            FileReader fr = new FileReader("data.txt");
+            FileReader fr = new FileReader(DATASHEET_FILE);
             BufferedReader br = new BufferedReader(fr);
             String in = br.readLine();
 
@@ -79,7 +81,7 @@ public class Loader
 
 
             System.out.println("");
-            System.out.println("LOADER :: > Finished Loading successfully");
+            System.out.println("LOADER :: > Done loading JOBS");
 
 
 

@@ -2,10 +2,9 @@ package Main.Memory;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
- * Date: 7/2/13
+ * User: Nick Maiello
+ * Date: 7/6/13
  * Time: 09:46 AM
- *
  *
  */
 import Main.ConfigFiles.Constants;

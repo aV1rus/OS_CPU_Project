@@ -25,27 +25,10 @@ public class Constants {
 
     public static final String PAGE_FAULT = "page fault";
 
-//    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s";
-    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%5s%5s%5s%5s%5s";
+    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s%15s%5s";
+//    public static final String OUTPUT_TABLE_FORMAT = "%15s%5s%5s%5s%5s%5s%5s";
     public static final String TABLE_LINE_BREAK = "\n";//"\n----------------------------------------------------------------------------------------------------------------------------------------------\n";
     public static final String  AVERAGE_TITLE = "AVERAGE";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static final int park_type_io = 0;
-    public static final int park_type_page_fault = 1;
 
 
 }

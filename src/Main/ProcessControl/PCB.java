@@ -2,8 +2,8 @@ package Main.ProcessControl;
 
 /**
  * Created with IntelliJ IDEA.
- * User: aV1rus
- * Date: 7/2/13
+ * User: Nick Maiello
+ * Date: 7/6/13
  * Time: 07:50 AM
  */
 import java.util.*;
@@ -94,10 +94,6 @@ public class PCB
         return temp_str;
     }
 
-    public List<Process> getPCBArray(){
-        return mProcesses;
-    }
-
 
     /***
      *
@@ -125,21 +121,11 @@ public class PCB
         }
     }
 
-    public void incrementWaitTime()
-    {
-        for (int i = 0; i < getPCBArray().size(); i++)
-        {
-            if((getJob(getPCBArray().get(i).getProc_id()).getProcState()) < 2)
-                getJob(getPCBArray().get(i).getProc_id()).setWaitTime(1);
-        }
-    }
-
-
     /***
      * addData
      * @param data           Data related to job
      * @param jobNum         JOB of which data is for
-     * Call thius function to add job to PCB
+     * Call this function to add job to PCB
      */
     public void addData(String data, int jobNum)
     {

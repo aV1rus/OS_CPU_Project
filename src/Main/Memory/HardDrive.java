@@ -89,26 +89,6 @@ public class HardDrive
         }
     }
 
-    //write data to a specific location on the drive
-//    public void writeLoc(String hex, int loc)
-//    {
-//        if(hex != null && loc < h_drive.length)
-//        {
-//            h_drive[loc] = hex;
-//        }
-//        else
-//        {
-//            ErrorLog.getInstance().writeError("HardDrive::writeLoc || >> Invalid inputs.");
-//            throw new IllegalArgumentException();
-//        }
-//    }
-
-    //get the last disk location for comparisons
-//    public int maxDiskLoc()
-//    {
-//        return lastLoc;
-//    }
-
     //print contents of disk
     public String toString()
     {

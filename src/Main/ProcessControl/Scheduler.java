@@ -3,7 +3,7 @@ package Main.ProcessControl;
 /**
  * Created with IntelliJ IDEA.
  * User: Nick Maiello (aV1rus)
- * Date: 7/2/13
+ * Date: 7/6/13
  * Time: 05:52 PM
  */
 import Main.Memory.HardDrive;
@@ -59,8 +59,6 @@ public class Scheduler
                 currentDisk = 0,
                 programCount = 0,
                 dataCount = 0,
-                //inBuffCount = 0,
-                //outBuffCount = 0,
                 tempBuffCount = 0;
 
         //switch on algorithm for prioritization
@@ -176,13 +174,13 @@ public class Scheduler
 
         return currentDisk;
 
-    }//method
+    }
 
     public int shortTerm()
     {
         //read the id from the Queue and output
         int id = ReadyQueue.getInstance().getProcesses();
-        //System.out.println(id + " ID gotten ****** ");
+        //System.out.println("Received the ID: "+ id);
 
 
         //if we are done...

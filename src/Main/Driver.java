@@ -1,5 +1,6 @@
 package Main;
 
+import Main.ConfigFiles.Constants;
 import Main.ControlUnit.CPU;
 import Main.ControlUnit.Dispatch;
 import Main.Memory.HardDrive;
@@ -22,7 +23,6 @@ public class Driver
 
     public static void main(String [] args)
     {
-
         HardDrive hardDrive = HardDrive.getInstance();
         PCB pcb = PCB.getInstance();
         Loader loader = Loader.getInstance();
@@ -42,6 +42,7 @@ public class Driver
 
         int notBusyCount = 0;
 
+        printCurrentDataTitles();
         while ( !pcb.isDone() ){
             scheduler.longTerm();
             ReadyQueue.getInstance().prioritize();
@@ -107,5 +108,23 @@ public class Driver
             }
         }
         pcb.getJob(1).getFinalData();
+    }
+    public static void printCurrentDataTitles()
+    {
+        System.out.print("\n\n");
+        System.out.format(Constants.OUTPUT_TABLE_FORMAT,
+                Constants.PROCESS_LABEL + "\t",
+                "\t",
+                Constants.WAIT_TIME_LABEL + "\t",
+                "\t",
+                Constants.EXECUTION_TIME_LABEL + "\t",
+                "\t",
+                Constants.INSTRUCTIONS_LABEL + "\t",
+                "\t",
+                Constants.IO_INSTRUCTIONS_LABEL + "\t",
+                "\t",
+                Constants.FAULTS_LABEL + "\t",
+                "\t");
+        System.out.print(Constants.TABLE_LINE_BREAK);
     }
 }

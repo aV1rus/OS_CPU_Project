@@ -199,6 +199,7 @@ public class Process
     {
         return mFaultCount;
     }
+
     public void printCurrentData()
     {
         String waitTimeVal =  ""+getWaitTime();
@@ -210,17 +211,17 @@ public class Process
 
 
         System.out.format(Constants.OUTPUT_TABLE_FORMAT,
-                Constants.PROCESS_LABEL + "\t",
+                "\t",//Constants.PROCESS_LABEL + "\t",
                 processVal + "\t",
-//                Constants.WAIT_TIME_LABEL + "\t",
+                "\t",//Constants.WAIT_TIME_LABEL + "\t",
                 waitTimeVal + "\t",
-//                Constants.EXECUTION_TIME_LABEL + "\t",
+                "\t",// Constants.EXECUTION_TIME_LABEL + "\t",
                 executionTimeVal + "\t",
-//                Constants.INSTRUCTIONS_LABEL + "\t",
+                "\t",//Constants.INSTRUCTIONS_LABEL + "\t",
                 instructionsVal + "\t",
-//                Constants.IO_INSTRUCTIONS_LABEL + "\t",
+                "\t",//Constants.IO_INSTRUCTIONS_LABEL + "\t",
                 IOinstructionsVal + "\t",
-//                Constants.FAULTS_LABEL + "\t",
+                "\t",//Constants.FAULTS_LABEL + "\t",
                 faultsVal + "\t");
         System.out.print(Constants.TABLE_LINE_BREAK);
     }
@@ -246,15 +247,15 @@ public class Process
         System.out.format(Constants.OUTPUT_TABLE_FORMAT,
                 Constants.AVERAGE_TITLE + "\t",
                 "\t",
-//                "\t",//Constants.WAIT_TIME_LABEL + "\t",
+                "\t",//Constants.WAIT_TIME_LABEL + "\t",
                 (totalWait / totalProcs) + "\t",
-//                "\t",//Constants.EXECUTION_TIME_LABEL+ "\t",
+                "\t",//Constants.EXECUTION_TIME_LABEL+ "\t",
                 (totalExecute / totalProcs) + "\t",
-//                "\t",//Constants.INSTRUCTIONS_LABEL + "\t",
+                "\t",//Constants.INSTRUCTIONS_LABEL + "\t",
                 (totalInstructions / totalProcs) + "\t",
-//                "\t",//Constants.IO_INSTRUCTIONS_LABEL + "\t",
+                "\t",//Constants.IO_INSTRUCTIONS_LABEL + "\t",
                 (totalIO / totalProcs) + "\t",
-//                "\t",//Constants.FAULTS_LABEL + "\t",
+                "\t",//Constants.FAULTS_LABEL + "\t",
                 (totalFault / totalProcs) + "\t");
 
     }
