@@ -25,8 +25,6 @@ public class Scheduler
     private static Scheduler mScheduler;
     private int mNum;
 
-
-    //constructer to build basic element
     private Scheduler()
     {
             this(DEFAULT_PROCESSORS);
@@ -37,7 +35,7 @@ public class Scheduler
         mAlgorithm = DEFAULT_ALGORITHM;
         mCurrentJobId = 1;
     }
-    //implement a synchronized instance of the scheduler
+
     public static synchronized Scheduler getInstance()
     {
         //if it does not exist, create; return
@@ -47,7 +45,6 @@ public class Scheduler
         return mScheduler;
     }
 
-    //LongTerm Scheduler
     public int longTerm()
     {
         //reset RAM before filling with data
@@ -178,7 +175,6 @@ public class Scheduler
 
     public int shortTerm()
     {
-        //read the id from the Queue and output
         int id = ReadyQueue.getInstance().getProcesses();
         //System.out.println("Received the ID: "+ id);
 

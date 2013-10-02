@@ -9,6 +9,10 @@ import Main.ProcessControl.PCB;
 import Main.ProcessControl.ReadyQueue;
 import Main.ProcessControl.Scheduler;
 import Main.ProcessControl.WaitQueue;
+
+import java.util.Random;
+import java.util.Scanner;
+
 import static Main.ConfigFiles.Config.*;
 /**
  * Created with IntelliJ IDEA.
@@ -19,13 +23,13 @@ import static Main.ConfigFiles.Config.*;
 
 public class Driver
 {
-
-
     public static void main(String [] args)
     {
-        HardDrive hardDrive = HardDrive.getInstance();
+
+        //Inistialize System
+        HardDrive.getInstance();
         PCB pcb = PCB.getInstance();
-        Loader loader = Loader.getInstance();
+        Loader.getInstance();
         Scheduler scheduler = Scheduler.getInstance();
 
         new Dispatch();

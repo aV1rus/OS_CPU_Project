@@ -2,35 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f6b959f-e2bb-4e91-8f87-897f13dc7782" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.36.29 AM.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.37.11 AM.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.37.26 AM.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.38.45 AM.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.39.04 AM.png" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.~lock.DataSummary_Deliverable.odt#" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Main/Log/ProcessStatus.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/DataSummary_Deliverable.odt" afterPath="$PROJECT_DIR$/src/Deliverables/DataSummary_Deliverable.odt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ControlUnit/CPU.java" afterPath="$PROJECT_DIR$/src/Main/ControlUnit/CPU.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ConfigFiles/Config.java" afterPath="$PROJECT_DIR$/src/Main/ConfigFiles/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ConfigFiles/Constants.java" afterPath="$PROJECT_DIR$/src/Main/ConfigFiles/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ControlUnit/Dispatch.java" afterPath="$PROJECT_DIR$/src/Main/ControlUnit/Dispatch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ControlUnit/Dispatcher.java" afterPath="$PROJECT_DIR$/src/Main/ControlUnit/Dispatcher.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/DataSummary_Deliverable.odt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.36.29 AM.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.37.11 AM.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.37.26 AM.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.38.45 AM.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Deliverables/Screen Shot 2013-09-11 at 10.39.04 AM.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Driver.java" afterPath="$PROJECT_DIR$/src/Main/Driver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Memory/HardDrive.java" afterPath="$PROJECT_DIR$/src/Main/Memory/HardDrive.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Loader.java" afterPath="$PROJECT_DIR$/src/Main/Loader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Memory/MemManager.java" afterPath="$PROJECT_DIR$/src/Main/Memory/MemManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ProcessControl/PCB.java" afterPath="$PROJECT_DIR$/src/Main/ProcessControl/PCB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ProcessControl/Process.java" afterPath="$PROJECT_DIR$/src/Main/ProcessControl/Process.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/Memory/RAM.java" afterPath="$PROJECT_DIR$/src/Main/Memory/RAM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ProcessControl/ReadyQueue.java" afterPath="$PROJECT_DIR$/src/Main/ProcessControl/ReadyQueue.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java" afterPath="$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main/ProcessControl/WaitQueue.java" afterPath="$PROJECT_DIR$/src/Main/ProcessControl/WaitQueue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="OS_CPU_Project.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378909626603" ignored="false" />
+    <file path="/Dummy.txt" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1379377817599" ignored="false" />
     <file path="/fragment.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1374147423483" ignored="false" />
     <file path="/Constants.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1377533085522" ignored="false" />
     <file path="/CPU.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378267737330" ignored="false" />
@@ -41,7 +26,7 @@
     <file path="/Scheduler.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378910546899" ignored="false" />
     <file path="/Loader.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378272193446" ignored="false" />
     <file path="/MemManager.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378909656794" ignored="false" />
-    <file path="/Driver.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378910112506" ignored="false" />
+    <file path="/Driver.java" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1379382262343" ignored="false" />
     <file path="/README.md" changelist="7f6b959f-e2bb-4e91-8f87-897f13dc7782" time="1378910773221" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -103,37 +88,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Driver.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main/Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="8" selection-start="374" selection-end="374" vertical-scroll-proportion="0.08230453">
+            <state line="42" column="87" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.5784575">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HardDrive.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/Memory/HardDrive.java">
+      <file leaf-file-name="Math.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Math.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="8" selection-start="2168" selection-end="2170" vertical-scroll-proportion="-17.76">
+            <state line="59" column="25" selection-start="1980" selection-end="1980" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MemManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/Memory/MemManager.java">
+      <file leaf-file-name="error_log.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/error/error_log.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="37" selection-start="368" selection-end="376" vertical-scroll-proportion="-2.0">
+            <state line="17" column="40" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArrayList.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/util/ArrayList.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="0" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/Config.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="32" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -142,7 +136,7 @@
       <file leaf-file-name="Process.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/Process.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="44" selection-start="1747" selection-end="1755" vertical-scroll-proportion="-23.6">
+            <state line="43" column="44" selection-start="1747" selection-end="1755" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -151,25 +145,7 @@
       <file leaf-file-name="ReadyQueue.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/ReadyQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="86" selection-start="937" selection-end="945" vertical-scroll-proportion="-21.8">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PCB.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/PCB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="11" selection-start="2729" selection-end="2732" vertical-scroll-proportion="-21.8">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RAM.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main/Memory/RAM.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="6" selection-start="302" selection-end="304" vertical-scroll-proportion="-6.8">
+            <state line="42" column="86" selection-start="937" selection-end="945" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -178,7 +154,7 @@
       <file leaf-file-name="Scheduler.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="44" selection-start="1965" selection-end="1974" vertical-scroll-proportion="-9.2">
+            <state line="175" column="18" selection-start="7430" selection-end="7430" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -187,7 +163,7 @@
       <file leaf-file-name="WaitQueue.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/WaitQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="20" selection-start="13" selection-end="20" vertical-scroll-proportion="-0.0">
+            <state line="106" column="20" selection-start="2134" selection-end="2134" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -219,19 +195,18 @@
         <option value="$PROJECT_DIR$/src/Main/ControlUnit/Dispatch.java" />
         <option value="$PROJECT_DIR$/src/Main/ControlUnit/Dispatcher.java" />
         <option value="$PROJECT_DIR$/src/Main/ProcessControl/Process.java" />
-        <option value="$PROJECT_DIR$/src/Main/Driver.java" />
         <option value="$PROJECT_DIR$/src/Main/ConfigFiles/Config.java" />
         <option value="$PROJECT_DIR$/src/Main/Memory/HardDrive.java" />
-        <option value="$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java" />
         <option value="$PROJECT_DIR$/src/Main/Loader.java" />
         <option value="$PROJECT_DIR$/src/Main/ProcessControl/PCB.java" />
         <option value="$PROJECT_DIR$/src/Main/ConfigFiles/Constants.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java" />
+        <option value="$PROJECT_DIR$/src/Main/Driver.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="196" />
     <option name="y" value="22" />
     <option name="width" value="1440" />
     <option name="height" value="874" />
@@ -262,6 +237,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -293,47 +270,34 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="OS_CPU_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OS_CPU_Project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Deliverables" />
+              <option name="myItemId" value="Main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Project" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../work/AndroidProject2" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -354,19 +318,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -394,6 +345,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -508,8 +472,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="196" y="22" width="1440" height="874" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -524,11 +488,11 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15566714" sideWeight="0.33333334" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15566714" sideWeight="0.33333334" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6666667" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17307693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17307693" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -598,118 +562,200 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main/ControlUnit/Dispatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="13" selection-start="259" selection-end="259" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/ControlUnit/Dispatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/InstructionSets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="192" selection-end="192" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/InstructionFormats.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="192" selection-end="192" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="37" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="58" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/Memory/HardDrive.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="8" selection-start="2168" selection-end="2170" vertical-scroll-proportion="-17.76">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main/Memory/MemManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="37" selection-start="368" selection-end="376" vertical-scroll-proportion="-2.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Memory/RAM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="6" selection-start="302" selection-end="304" vertical-scroll-proportion="-6.8">
-          <folding />
-        </state>
+        <state line="15" column="6" selection-start="302" selection-end="304" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/PCB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="11" selection-start="2729" selection-end="2732" vertical-scroll-proportion="-21.8">
+        <state line="131" column="11" selection-start="2729" selection-end="2732" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/Process.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="44" selection-start="1747" selection-end="1755" vertical-scroll-proportion="-23.6">
+        <state line="43" column="44" selection-start="1747" selection-end="1755" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/ReadyQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="86" selection-start="937" selection-end="945" vertical-scroll-proportion="-21.8">
+        <state line="42" column="86" selection-start="937" selection-end="945" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/Scheduler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="44" selection-start="1965" selection-end="1974" vertical-scroll-proportion="-9.2">
+        <state line="175" column="18" selection-start="7430" selection-end="7430" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main/ConfigFiles/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="32" selection-start="513" selection-end="513" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/util/Vector.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="26" selection-start="3007" selection-end="3007" vertical-scroll-proportion="0.33333334" />
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/util/ArrayList.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="0" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/ProcessControl/WaitQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="20" selection-start="13" selection-end="20" vertical-scroll-proportion="-0.0">
+        <state line="106" column="20" selection-start="2134" selection-end="2134" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="203" selection-end="203" vertical-scroll-proportion="0.18467852" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/error/error_log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="40" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/io/FilterOutputStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="150" selection-end="150" vertical-scroll-proportion="0.10288066">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Appendable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="156" selection-end="156" vertical-scroll-proportion="0.10288066">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/io/PrintStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="86" selection-start="223" selection-end="223" vertical-scroll-proportion="-1.1312585">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Math.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="25" selection-start="1980" selection-end="1980" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="8" selection-start="374" selection-end="374" vertical-scroll-proportion="0.08230453">
+        <state line="42" column="87" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.5784575">
           <folding />
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>OS_CPU_Project</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Archive</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 
